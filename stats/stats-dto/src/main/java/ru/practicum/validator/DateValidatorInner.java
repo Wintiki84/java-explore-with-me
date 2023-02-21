@@ -16,9 +16,7 @@ class DateValidatorInner implements ConstraintValidator<DateValidator, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if ((value == null) | ("".equals(value)))
-            return true;
-        
+        if ((value == null) || (value.isEmpty())) return true;
         try {
             Date date = DateUtils.parseDate(value, dateFormat);
             return date != null;
