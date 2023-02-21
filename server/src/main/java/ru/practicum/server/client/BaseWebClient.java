@@ -17,6 +17,7 @@ public class BaseWebClient {
     public BaseWebClient(WebClient webClient) {
         this.webClient = webClient;
     }
+
     protected <T> Mono<ResponseEntity<Object>> post(String path, T body) {
         return post(path, null, body);
     }
