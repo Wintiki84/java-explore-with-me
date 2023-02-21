@@ -8,18 +8,17 @@ import java.util.Date;
 
 class DateValidatorInner implements ConstraintValidator<DateValidator, String> {
     private String dateFormat;
+
     @Override
     public void initialize(DateValidator constraintAnnotation) {
         this.dateFormat = constraintAnnotation.dateFormat();
     }
+
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null) {
+        if ((value == null) | ("".equals(value)))
             return true;
-        }
-        if("".equals(value)){
-            return true;
-        }
+        
         try {
             Date date = DateUtils.parseDate(value, dateFormat);
             return date != null;

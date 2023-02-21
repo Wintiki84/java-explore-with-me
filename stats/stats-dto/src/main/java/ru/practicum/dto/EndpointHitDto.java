@@ -9,7 +9,6 @@ import ru.practicum.validator.Create;
 import ru.practicum.validator.DateValidator;
 import ru.practicum.validator.Details;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -17,7 +16,7 @@ import javax.validation.constraints.Pattern;
 @Data
 @Builder
 public class EndpointHitDto {
-    static private final String IPV4_REGEX =
+    static final String IPV4_REGEX =
             "(([0-1]?[0-9]{1,2}\\.)|(2[0-4][0-9]\\.)|(25[0-5]\\.)){3}(([0-1]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))";
     private Long id;
     @JsonView({Details.class, AdminDetails.class})
