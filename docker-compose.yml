@@ -9,11 +9,9 @@ services:
     ports:
       - "9090:9090"
     environment:
-      - DB_NAME=stats
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-      - DB_HOST=stats-db
-      - DB_PORT=5432
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats
 
   stats-db:
     image: postgres:15.1-alpine
