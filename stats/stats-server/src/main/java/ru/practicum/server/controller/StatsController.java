@@ -13,8 +13,6 @@ import ru.practicum.validator.*;
 import ru.practicum.dto.ListViewStats;
 import ru.practicum.server.service.StatsService;
 
-
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;

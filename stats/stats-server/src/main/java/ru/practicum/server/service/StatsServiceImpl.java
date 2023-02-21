@@ -26,9 +26,9 @@ public class StatsServiceImpl implements StatsService {
     @NotNull
     @Override
     @Transactional
-    public EndpointHitDto addEndpointHit(@NotNull EndpointHitDto EndpointHitDto) {
+    public EndpointHitDto addEndpointHit(@NotNull EndpointHitDto endpointHitDto) {
         return statsMapper.mapToEndpointHitDto
-                (statsRepository.save(statsMapper.mapToEndpointHit(EndpointHitDto)));
+                (statsRepository.save(statsMapper.mapToEndpointHit(endpointHitDto)));
     }
 
     @NotNull

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface StatsService {
     @NotNull
-    EndpointHitDto addEndpointHit(@NotNull EndpointHitDto EndpointHitDto);
+    EndpointHitDto addEndpointHit(@NotNull EndpointHitDto endpointHitDto);
 
     @NotNull
     ListViewStats getStats(@NotNull String start, @NotNull String end,
