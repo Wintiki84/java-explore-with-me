@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.dto.ViewStats;
 import ru.practicum.server.model.EndpointHit;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,8 +17,8 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
             "WHERE vs.timestamp BETWEEN :start AND :end " +
             "GROUP BY vs.app, vs.uri " +
             "ORDER BY COUNT(vs.ip) DESC")
-    List<ViewStats> getViewStatsByStartAndEndTime(@Param("start") LocalDateTime start,
-                                                  @Param("end") LocalDateTime end);
+    List<ViewStats> getViewStats(@Param("start") LocalDateTime start,
+                                 @Param("end") LocalDateTime end);
 
     @Query("SELECT new ru.practicum.dto.ViewStats(vs.app, vs.uri, COUNT(vs.ip)) " +
             "FROM EndpointHit AS vs " +
@@ -27,17 +26,17 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
             "AND vs.uri IN :uris " +
             "GROUP BY vs.app, vs.uri " +
             "ORDER BY COUNT(vs.ip) DESC")
-    List<ViewStats> getUrisViewStatsByStartAndEndTime(@Param("start") LocalDateTime start,
-                                                      @Param("end") LocalDateTime end,
-                                                      @Param("uris") List<String> uris);
+    List<ViewStats> getUrisViewStats(@Param("start") LocalDateTime start,
+                                     @Param("end") LocalDateTime end,
+                                     @Param("uris") String[] uris);
 
     @Query("SELECT new ru.practicum.dto.ViewStats(vs.app, vs.uri, COUNT(DISTINCT vs.ip)) " +
             "FROM EndpointHit AS vs " +
             "WHERE vs.timestamp BETWEEN :start AND :end " +
             "GROUP BY vs.app, vs.uri " +
             "ORDER BY COUNT(DISTINCT vs.ip) DESC")
-    List<ViewStats> getUniqueViewStatsByStartAndEndTime(@Param("start") LocalDateTime start,
-                                                        @Param("end") LocalDateTime end);
+    List<ViewStats> getUniqueViewStats(@Param("start") LocalDateTime start,
+                                       @Param("end") LocalDateTime end);
 
     @Query("SELECT new ru.practicum.dto.ViewStats(vs.app, vs.uri, COUNT(DISTINCT vs.ip)) " +
             "FROM EndpointHit AS vs " +
@@ -45,7 +44,7 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
             "AND vs.uri IN :uris " +
             "GROUP BY vs.app, vs.uri " +
             "ORDER BY COUNT(DISTINCT vs.ip) DESC")
-    List<ViewStats> getUniqueUrisViewStatsByStartAndEndTime(@Param("start") LocalDateTime start,
-                                                      @Param("end") LocalDateTime end,
-                                                      @Param("uris") List<String> uris);
+    List<ViewStats> getUniqueUrisViewStats(@Param("start") LocalDateTime start,
+                                           @Param("end") LocalDateTime end,
+                                           @Param("uris") String[] uris);
 }

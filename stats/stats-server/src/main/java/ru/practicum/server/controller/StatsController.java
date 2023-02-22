@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.EndpointHitDto;
+import ru.practicum.dto.ViewStats;
 import ru.practicum.validator.*;
-import ru.practicum.dto.ListViewStats;
 import ru.practicum.server.service.StatsService;
 
 import javax.validation.constraints.NotEmpty;
@@ -35,12 +35,10 @@ public class StatsController {
 
     @JsonView({AdminDetails.class})
     @GetMapping("/stats")
-    public ResponseEntity<ListViewStats> getStats(@NotEmpty @DateValidator
-                                                  @RequestParam String start,
-                                                  @NotEmpty @DateValidator
-                                                  @RequestParam String end,
-                                                  @RequestParam(required = false) List<String> uris,
-                                                  @RequestParam(defaultValue = "false") Boolean unique) {
+    public ResponseEntity<List<ViewStats>> getStats(@NotEmpty @DateValidator @RequestParam String start,
+                                                    @NotEmpty @DateValidator @RequestParam String end,
+                                                    @RequestParam(required = false) String[] uris,
+                                                    @RequestParam(defaultValue = "false") Boolean unique) {
         log.info("Запрос на чтение статистики:start {}, end {}", start, end);
         return ResponseEntity.status(HttpStatus.OK).body(statsService.getStats(start, end, uris, unique));
     }
