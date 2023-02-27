@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.text.ParseException;
 import java.util.Date;
 
-class DateValidatorInner implements ConstraintValidator<DateValidator, String> {
+public class DateValidatorInner implements ConstraintValidator<DateValidator, String> {
     private String dateFormat;
 
     @Override
