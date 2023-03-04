@@ -25,13 +25,13 @@ public class AdminCompilationController {
 
     @PostMapping
     public ResponseEntity<CompilationDtoResp> addCompilation(@RequestBody @Valid NewCompilationDto compilation) {
-        log.info("add compilation:{}", compilation);
+        log.info("добавить компиляцию:{}", compilation);
         return ResponseEntity.status(HttpStatus.CREATED).body(compilationService.addCompilation(compilation));
     }
 
     @DeleteMapping("{compId}")
     public ResponseEntity<Void> deleteCompilation(@PathVariable @Min(1) Long compId) {
-        log.info("delete compilation with id={}", compId);
+        log.info("удалить компиляцию с id={}", compId);
         compilationService.deleteCompilation(compId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -39,7 +39,7 @@ public class AdminCompilationController {
     @PatchMapping("{compId}")
     public ResponseEntity<CompilationDtoResp> updateCompilation(@PathVariable @Min(1) Long compId,
                                                                 @RequestBody UpdateCompilationRequest updateCompilation) {
-        log.info("update compilation with id={} to compilation:{}", compId, updateCompilation);
+        log.info("обнавить компиляцию с id={} на компиляцию:{}", compId, updateCompilation);
         return ResponseEntity.status(HttpStatus.OK).body(compilationService.updateCompilation(compId, updateCompilation));
     }
 }

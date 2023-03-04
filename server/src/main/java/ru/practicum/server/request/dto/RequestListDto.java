@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class ParticipationRequestList {
+public class RequestListDto {
     @JsonValue
-    private List<ParticipationRequestDto> requests;
+    private List<RequestDto> requests;
 }

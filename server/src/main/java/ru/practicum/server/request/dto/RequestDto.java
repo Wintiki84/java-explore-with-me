@@ -6,7 +6,7 @@ import ru.practicum.server.request.enums.RequestStatus;
 
 @Data
 @Builder
-public class ParticipationRequestDto {
+public class RequestDto {
     private Long id;
     private Long event;
     private Long requester;

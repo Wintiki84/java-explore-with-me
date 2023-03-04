@@ -23,8 +23,8 @@ import ru.practicum.server.handler.exception.EventStateException;
 import ru.practicum.server.handler.exception.NotFoundException;
 import ru.practicum.server.request.dto.EventRequestStatusUpdate;
 import ru.practicum.server.request.dto.EventRequestStatusUpdateResult;
-import ru.practicum.server.request.dto.ParticipationRequestDto;
-import ru.practicum.server.request.dto.ParticipationRequestList;
+import ru.practicum.server.request.dto.RequestDto;
+import ru.practicum.server.request.dto.RequestListDto;
 import ru.practicum.server.request.enums.RequestStatus;
 import ru.practicum.server.request.maper.RequestMapper;
 import ru.practicum.server.request.repository.RequestRepository;
@@ -52,7 +52,7 @@ public class EventServiceImp implements EventService {
     private final RequestRepository requestRepository;
 
     @Override
-    public EventFullDto addNewEvent(Long userId, NewEventDto eventDto) {
+    public EventDto addNewEvent(Long userId, NewEventDto eventDto) {
         User user = users.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User with id=" + userId + " was not found"));
         Category category = categories.findById(eventDto.getCategory()).orElseThrow(
@@ -65,7 +65,7 @@ public class EventServiceImp implements EventService {
             newEvent.setInitiator(user);
             newEvent.setCategory(category);
             newEvent.setCreatedOn(LocalDateTime.now());
-            return mapper.mapToEventFullDto(events.save(newEvent));
+            return mapper.mapToEventDto(events.save(newEvent));
         }
     }
 
@@ -82,9 +82,9 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public EventFullDto getPrivateUserEvent(Long userId, Long eventId) {
+    public EventDto getPrivateUserEvent(Long userId, Long eventId) {
         if (users.existsById(userId)) {
-            return mapper.mapToEventFullDto(events.findByEventIdAndInitiatorUserId(eventId, userId)
+            return mapper.mapToEventDto(events.findByEventIdAndInitiatorUserId(eventId, userId)
                     .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found")));
         } else {
             throw new NotFoundException("User with id=" + userId + " was not found");
@@ -92,7 +92,7 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public EventFullDto updateEventUser(Long userId, Long eventId, UpdateEventUserRequest updateEvent) {
+    public EventDto updateEventUser(Long userId, Long eventId, UpdateEventUserRequest updateEvent) {
         if (users.existsById(userId)) {
             LocalDateTime eventTime;
             if (updateEvent.getEventDate() != null) {
@@ -112,14 +112,14 @@ public class EventServiceImp implements EventService {
                         () -> new NotFoundException("Category with id=" + updateEvent.getCategory() + " was not found")));
             }
             event.setState(StateAction.getState(updateEvent.getStateAction()));
-            return mapper.mapToEventFullDto(events.save(mapper.mapToEvent(updateEvent, event)));
+            return mapper.mapToEventDto(events.save(mapper.mapToEvent(updateEvent, event)));
         } else {
             throw new NotFoundException("User with id=" + userId + " was not found");
         }
     }
 
     @Override
-    public ListEventFullDto getEventsByFiltersForAdmin(List<Long> ids, List<String> states, List<Long> categories,
+    public ListEventDto getEventsByFiltersForAdmin(List<Long> ids, List<String> states, List<Long> categories,
                                                        LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable) {
         BooleanBuilder booleanBuilder = createQuery(ids, states, categories, rangeStart, rangeEnd);
         Page<Event> page;
@@ -128,14 +128,14 @@ public class EventServiceImp implements EventService {
         } else {
             page = events.findAll(pageable);
         }
-        return ListEventFullDto
+        return ListEventDto
                 .builder()
-                .events(mapper.mapToListEventFullDto(page.getContent()))
+                .events(mapper.mapToListEventDto(page.getContent()))
                 .build();
     }
 
     @Override
-    public EventFullDto updateEventAdmin(Long eventId, UpdateEventAdminRequest updateEvent) {
+    public EventDto updateEventAdmin(Long eventId, UpdateEventAdminRequest updateEvent) {
         LocalDateTime eventTime;
         if (updateEvent.getEventDate() != null) {
             eventTime = LocalDateTime.parse(updateEvent.getEventDate(), formatter);
@@ -151,15 +151,15 @@ public class EventServiceImp implements EventService {
             event.setCategory(categories.findById(updateEvent.getCategory()).orElseThrow(
                     () -> new NotFoundException("Category with id=" + updateEvent.getCategory() + " was not found")));
         }
-        return mapper.mapToEventFullDto(events.save(mapper.mapToEvent(updateEvent, event)));
+        return mapper.mapToEventDto(events.save(mapper.mapToEvent(updateEvent, event)));
     }
 
     @Override
-    public ParticipationRequestList getUserEventRequests(Long userId, Long eventId) {
+    public RequestListDto getUserEventRequests(Long userId, Long eventId) {
         if (users.existsById(userId)) {
             Event event = events.findByEventIdAndInitiatorUserId(eventId, userId)
                     .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
-            return ParticipationRequestList
+            return RequestListDto
                     .builder()
                     .requests(event.getRequests().stream().map(requestMapper::mapToRequestDto).collect(Collectors.toList()))
                     .build();
@@ -177,8 +177,8 @@ public class EventServiceImp implements EventService {
             if (event.getParticipantLimit() <= event.getConfirmedRequests()) {
                 throw new AccessException("The participant limit has been reached");
             }
-            List<ParticipationRequestDto> confirmedRequests = new ArrayList<>();
-            List<ParticipationRequestDto> rejectedRequests = new ArrayList<>();
+            List<RequestDto> confirmedRequests = new ArrayList<>();
+            List<RequestDto> rejectedRequests = new ArrayList<>();
             moderationRequests(confirmedRequests, rejectedRequests, event, requests);
             return EventRequestStatusUpdateResult
                     .builder()
@@ -192,12 +192,12 @@ public class EventServiceImp implements EventService {
 
     @Override
     @Transactional
-    public EventFullDto getEventByIdPublic(Long eventId, HttpServletRequest servlet) {
+    public EventDto getEventByIdPublic(Long eventId, HttpServletRequest servlet) {
         statisticClient.postStats(servlet, "ewm-server");
         Event event = events.findByEventIdAndState(eventId, State.PUBLISHED)
                 .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
         event.setViews(statisticClient.getViews(eventId));
-        return mapper.mapToEventFullDto(events.save(event));
+        return mapper.mapToEventDto(events.save(event));
     }
 
     private void changeEventState(Event event, String actionState) {
@@ -208,7 +208,7 @@ public class EventServiceImp implements EventService {
                     event.setPublishedOn(LocalDateTime.now());
                     break;
                 } else {
-                    throw new EventStateException("Cannot publish the event because it's not in the right state: " +
+                    throw new EventStateException("не правильное состояние события:" +
                             event.getState());
                 }
             case CANCELED:
@@ -216,7 +216,7 @@ public class EventServiceImp implements EventService {
                     event.setState(State.CANCELED);
                     break;
                 } else {
-                    throw new EventStateException("Cannot canceled the event because it's not in the right state: " +
+                    throw new EventStateException("не правильное состояние события: " +
                             event.getState());
                 }
         }
@@ -280,8 +280,8 @@ public class EventServiceImp implements EventService {
         return booleanBuilder;
     }
 
-    private void moderationRequests(List<ParticipationRequestDto> confirmedRequests,
-                                    List<ParticipationRequestDto> rejectedRequests,
+    private void moderationRequests(List<RequestDto> confirmedRequests,
+                                    List<RequestDto> rejectedRequests,
                                     Event event, EventRequestStatusUpdate requests) {
         requestRepository.findAllByRequestIdIn(requests.getRequestIds()).stream().peek(r -> {
             if (r.getStatus().equals(RequestStatus.PENDING)) {
@@ -304,7 +304,7 @@ public class EventServiceImp implements EventService {
                     r.setStatus(RequestStatus.REJECTED);
                 }
             } else {
-                throw new AccessException("Can only confirm PENDING requests");
+                throw new AccessException("Может только подтверждать PENDING запросы");
             }
         }).map(requestMapper::mapToRequestDto).forEach(r -> {
             if (r.getStatus().equals(RequestStatus.CONFIRMED)) {

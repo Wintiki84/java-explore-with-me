@@ -11,9 +11,10 @@ import javax.validation.constraints.Size;
 @Data
 @Builder
 @Jacksonized
-public class NewCategoryDto {
-    @Pattern(regexp = "^[^ ].*[^ ]$", message = "Invalid name")
+public class CategoryDto {
+    private Long id;
+    @Pattern(regexp = "^[^ ].*[^ ]$", message = "Ошибка в названии категории")
     @Size(max = 255)
-    @NotNull(message = "Field: name. Error: must not be blank. Value: null")
+    @NotNull(message = "Название не должно быть пустым")
     private String name;
 }

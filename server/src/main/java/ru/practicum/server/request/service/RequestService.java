@@ -1,12 +1,12 @@
 package ru.practicum.server.request.service;
 
-import ru.practicum.server.request.dto.ParticipationRequestDto;
-import ru.practicum.server.request.dto.ParticipationRequestList;
+import ru.practicum.server.request.dto.RequestDto;
+import ru.practicum.server.request.dto.RequestListDto;
 
 public interface RequestService {
-    ParticipationRequestDto createRequest(Long userId, Long eventId);
+    RequestDto createRequest(Long userId, Long eventId);
 
-    ParticipationRequestList getUserRequests(Long userId);
+    RequestListDto getUserRequests(Long userId);
 
-    ParticipationRequestDto canceledRequest(Long userId, Long eventId);
+    RequestDto canceledRequest(Long userId, Long eventId);
 }

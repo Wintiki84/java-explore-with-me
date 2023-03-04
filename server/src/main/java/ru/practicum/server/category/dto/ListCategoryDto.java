@@ -10,5 +10,5 @@ import java.util.List;
 @Getter
 public class ListCategoryDto {
     @JsonValue
-    private List<NewCategoryDtoResp> catList;
+    private List<CategoryDto> catList;
 }

@@ -10,12 +10,13 @@ import javax.validation.constraints.Size;
 
 @Data
 @Builder
-public class NewUserRequest {
-    @Pattern(regexp = "^[^ ].*[^ ]$", message = "invalid name")
+public class UserDto {
+    private Long id;
+    @Pattern(regexp = "^[^ ].*[^ ]$", message = "некорректное имя")
     @Size(max = 255)
-    @NotNull(message = "Field: name. Error: must not be blank. Value: null")
+    @NotNull(message = "имя не должно быть null")
     private String name;
-    @Email(message = "invalid email")
+    @Email(message = "некорректный email")
     @NotNull
     private String email;
 }

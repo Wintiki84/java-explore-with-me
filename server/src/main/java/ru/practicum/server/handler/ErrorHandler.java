@@ -28,7 +28,7 @@ public class ErrorHandler {
         ApiError errorResponse = ApiError.builder()
                 .errors(Arrays.asList(e.getStackTrace()))
                 .message(e.getFieldError().getDefaultMessage())
-                .reason("Incorrectly made request.")
+                .reason("Неправильный запрос.")
                 .status(HttpStatus.BAD_REQUEST.toString())
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
@@ -40,7 +40,7 @@ public class ErrorHandler {
         ApiError errorResponse = ApiError.builder()
                 .errors(Arrays.asList(e.getStackTrace()))
                 .message(e.getMessage())
-                .reason("Integrity constraint has been violated.")
+                .reason("Некорректная валидация.")
                 .status(String.valueOf(HttpStatus.CONFLICT))
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
@@ -54,7 +54,7 @@ public class ErrorHandler {
         ApiError errorResponse = ApiError.builder()
                 .errors(Arrays.asList(e.getStackTrace()))
                 .message(e.getMessage())
-                .reason("The required object was not found.")
+                .reason("Объект не найден.")
                 .status(HttpStatus.NOT_FOUND.toString())
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
@@ -66,7 +66,7 @@ public class ErrorHandler {
         ApiError errorResponse = ApiError.builder()
                 .errors(Arrays.asList(e.getStackTrace()))
                 .message(e.getMessage())
-                .reason("Invalid request parameters.")
+                .reason("Недопустимые параметры запросаs.")
                 .status(HttpStatus.BAD_REQUEST.toString())
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
@@ -78,7 +78,7 @@ public class ErrorHandler {
         ApiError errorResponse = ApiError.builder()
                 .errors(Arrays.asList(e.getStackTrace()))
                 .message(e.getMessage())
-                .reason("For the requested operation the conditions are not met.")
+                .reason("Для запрошенной операции условия не соблюдены.")
                 .status(HttpStatus.CONFLICT.toString())
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
@@ -91,7 +91,7 @@ public class ErrorHandler {
         ApiError errorResponse = ApiError.builder()
                 .errors(Arrays.asList(e.getStackTrace()))
                 .message(e.getMessage())
-                .reason("Incorrectly made request.")
+                .reason("Неправильно сделанный запрос.")
                 .status(HttpStatus.BAD_REQUEST.toString())
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();

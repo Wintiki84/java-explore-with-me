@@ -8,9 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.server.user.dto.ListNewUserRequestResp;
-import ru.practicum.server.user.dto.NewUserRequest;
-import ru.practicum.server.user.dto.NewUserRequestResponse;
+import ru.practicum.server.user.dto.UserDto;
+import ru.practicum.server.user.dto.UserListDto;
 import ru.practicum.server.user.service.UserService;
 
 import javax.validation.Valid;
@@ -26,22 +25,22 @@ public class UserControllerAdmin {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<NewUserRequestResponse> createUser(@Valid @RequestBody NewUserRequest userRequest) {
-        log.info("create userRequest: {}", userRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
+        log.info("создание пользователя: {}", userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userDto));
     }
 
     @GetMapping
-    public ResponseEntity<ListNewUserRequestResp> getUsers(@RequestParam(required = false) List<Long> ids,
-                                                           @RequestParam(defaultValue = "0") @Min(0) Integer from,
-                                                           @RequestParam(defaultValue = "10") @Min(1) Integer size) {
-        log.info("getUsersFromListIds: ids: {}, from: {},size: {}", ids, from, size);
+    public ResponseEntity<UserListDto> getUsers(@RequestParam(required = false) List<Long> ids,
+                                                @RequestParam(defaultValue = "0") @Min(0) Integer from,
+                                                @RequestParam(defaultValue = "10") @Min(1) Integer size) {
+        log.info("Получить пользователей из списков: ids: {}, from: {},size: {}", ids, from, size);
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUsers(ids, PageRequest.of(from / size, size)));
     }
 
     @DeleteMapping("{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable @Min(1) Long userId) {
-        log.info("delete user with id={}", userId);
+        log.info("удалить пользователя с id={}", userId);
         userService.deleteUser(userId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -3,21 +3,17 @@ package ru.practicum.server.category.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
-import ru.practicum.server.category.dto.NewCategoryDto;
-import ru.practicum.server.category.dto.NewCategoryDtoResp;
-import ru.practicum.server.category.dto.UpdateCategoryDto;
+import ru.practicum.server.category.dto.CategoryDto;
 import ru.practicum.server.category.model.Category;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
-    Category mapToCategory(NewCategoryDto newCategoryDto);
+    Category mapToCategory(CategoryDto сategoryDto);
 
     @Mapping(source = "categoryId", target = "id")
-    NewCategoryDtoResp mapToNewCategoryDtoResp(Category category);
+    CategoryDto mapToCategoryDto(Category category);
 
-    Category mapToCategory(UpdateCategoryDto updateCategory);
-
-    List<NewCategoryDtoResp> mapToListCategories(Page<Category> page);
+    List<CategoryDto> mapToListCategories(Page<Category> page);
 }

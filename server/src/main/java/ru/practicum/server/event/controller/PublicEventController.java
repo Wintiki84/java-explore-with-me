@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.server.event.dto.EventFullDto;
+import ru.practicum.server.event.dto.EventDto;
 import ru.practicum.server.event.dto.ListEventShortDto;
 import ru.practicum.server.event.enums.EventSort;
 import ru.practicum.server.event.service.EventService;
@@ -29,9 +29,9 @@ public class PublicEventController {
     private final EventService eventService;
 
     @GetMapping("{id}")
-    public ResponseEntity<EventFullDto> getEventById(@PathVariable("id") @Min(1) Long eventId,
+    public ResponseEntity<EventDto> getEventById(@PathVariable("id") @Min(1) Long eventId,
                                                      HttpServletRequest servlet) {
-        log.info("get event with id={}", eventId);
+        log.info("получить события с id={}", eventId);
         return ResponseEntity.status(HttpStatus.OK).body(eventService.getEventByIdPublic(eventId, servlet));
     }
 
@@ -47,7 +47,7 @@ public class PublicEventController {
             @RequestParam(defaultValue = "0") @Min(0) Integer from,
             @RequestParam(defaultValue = "10") @Min(1) Integer size,
             HttpServletRequest servlet) {
-        log.info("get events public");
+        log.info("сделать события общедоступными");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(eventService.getEventsByFiltersPublic(
                         text, categories, paid, rangeStart, rangeEnd, onlyAvailable,

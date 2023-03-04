@@ -2,7 +2,7 @@ package ru.practicum.server.request.maper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.practicum.server.request.dto.ParticipationRequestDto;
+import ru.practicum.server.request.dto.RequestDto;
 import ru.practicum.server.request.model.Request;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public interface RequestMapper {
     @Mapping(source = "event.eventId", target = "event")
     @Mapping(source = "requester.userId", target = "requester")
     @Mapping(source = "requestId", target = "id")
-    ParticipationRequestDto mapToRequestDto(Request request);
+    RequestDto mapToRequestDto(Request request);
 
-    List<ParticipationRequestDto> mapToRequestDtoList(List<Request> requests);
+    List<RequestDto> mapToRequestDtoList(List<Request> requests);
 }

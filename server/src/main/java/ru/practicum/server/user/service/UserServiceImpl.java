@@ -7,9 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.server.handler.exception.NotFoundException;
-import ru.practicum.server.user.dto.ListNewUserRequestResp;
-import ru.practicum.server.user.dto.NewUserRequest;
-import ru.practicum.server.user.dto.NewUserRequestResponse;
+import ru.practicum.server.user.dto.UserDto;
+import ru.practicum.server.user.dto.UserListDto;
 import ru.practicum.server.user.mapper.UserMapper;
 import ru.practicum.server.user.model.QUser;
 import ru.practicum.server.user.model.User;
@@ -24,12 +23,12 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mapper;
 
     @Override
-    public NewUserRequestResponse createUser(NewUserRequest userRequest) {
-        return mapper.mapToUserRequestResp(usersRepository.save(mapper.mapToUser(userRequest)));
+    public UserDto createUser(UserDto userDto) {
+        return mapper.mapToUserDto(usersRepository.save(mapper.mapToUser(userDto)));
     }
 
     @Override
-    public ListNewUserRequestResp getUsers(List<Long> ids, Pageable pageable) {
+    public UserListDto getUsers(List<Long> ids, Pageable pageable) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         if (ids != null && !ids.isEmpty()) {
             booleanBuilder.and(QUser.user.userId.in(ids));
@@ -40,9 +39,9 @@ public class UserServiceImpl implements UserService {
         } else {
             page = usersRepository.findAll(pageable);
         }
-        return ListNewUserRequestResp
+        return UserListDto
                 .builder()
-                .users(mapper.mapToUserRequestResp(page))
+                .users(mapper.mapToUserDto(page))
                 .build();
     }
 
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserService {
         if (usersRepository.existsById(userId)) {
             usersRepository.deleteById(userId);
         } else {
-            throw new NotFoundException("User with id=" + userId + " was not found");
+            throw new NotFoundException("Пользователь с id=" + userId + " не найден");
         }
     }
 }

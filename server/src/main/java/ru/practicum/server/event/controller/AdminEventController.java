@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.server.event.dto.EventFullDto;
-import ru.practicum.server.event.dto.ListEventFullDto;
+import ru.practicum.server.event.dto.EventDto;
+import ru.practicum.server.event.dto.ListEventDto;
 import ru.practicum.server.event.dto.UpdateEventAdminRequest;
 import ru.practicum.server.event.service.EventService;
 
@@ -28,7 +28,7 @@ public class AdminEventController {
     private final EventService eventService;
 
     @GetMapping
-    public ResponseEntity<ListEventFullDto> getEventsByFiltersForAdmin(
+    public ResponseEntity<ListEventDto> getEventsByFiltersForAdmin(
             @RequestParam(required = false) List<Long> users,
             @RequestParam(required = false) List<String> states,
             @RequestParam(required = false) List<Long> categories,
@@ -36,16 +36,16 @@ public class AdminEventController {
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
             @RequestParam(defaultValue = "0") @Min(0) Integer from,
             @RequestParam(defaultValue = "10") @Min(1) Integer size) {
-        log.info("get events by filter:");
+        log.info("получать события по фильтру");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(eventService.getEventsByFiltersForAdmin(users, states, categories, rangeStart, rangeEnd,
                         PageRequest.of(from / size, size)));
     }
 
     @PatchMapping("{eventId}")
-    public ResponseEntity<EventFullDto> updateEventAdmin(@PathVariable @Min(1) Long eventId,
+    public ResponseEntity<EventDto> updateEventAdmin(@PathVariable @Min(1) Long eventId,
                                                          @RequestBody @Valid UpdateEventAdminRequest updateEvent) {
-        log.info("update event with eventId={}: {}", eventId, updateEvent);
+        log.info("обновление события с eventId={}: {}", eventId, updateEvent);
         return ResponseEntity.status(HttpStatus.OK).body(eventService.updateEventAdmin(eventId, updateEvent));
     }
 }

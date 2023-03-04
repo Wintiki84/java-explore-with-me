@@ -9,8 +9,8 @@ import ru.practicum.server.event.model.Event;
 import ru.practicum.server.event.repository.EventRepository;
 import ru.practicum.server.handler.exception.AccessException;
 import ru.practicum.server.handler.exception.NotFoundException;
-import ru.practicum.server.request.dto.ParticipationRequestDto;
-import ru.practicum.server.request.dto.ParticipationRequestList;
+import ru.practicum.server.request.dto.RequestDto;
+import ru.practicum.server.request.dto.RequestListDto;
 import ru.practicum.server.request.enums.RequestStatus;
 import ru.practicum.server.request.maper.RequestMapper;
 import ru.practicum.server.request.model.Request;
@@ -28,11 +28,11 @@ public class RequestServiceImp implements RequestService {
 
     @Override
     @Transactional
-    public ParticipationRequestDto createRequest(Long userId, Long eventId) {
+    public RequestDto createRequest(Long userId, Long eventId) {
         Event event = events.findById(eventId)
-                .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
+                .orElseThrow(() -> new NotFoundException("Событие с id=" + eventId + " не найдено"));
         User requester = users.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User with id=" + userId + " was not found"));
+                .orElseThrow(() -> new NotFoundException("Пользователь с id=" + userId + " не найдено"));
         validateCreatingRequest(event, userId);
         if (event.getParticipantLimit() == 0 || event.getParticipantLimit() > event.getConfirmedRequests()) {
             var newRequest = preparationRequest(event, requester);
@@ -45,30 +45,30 @@ public class RequestServiceImp implements RequestService {
             }
             return mapper.mapToRequestDto(requests.save(newRequest));
         } else {
-            throw new AccessException("Request limit reached");
+            throw new AccessException("Достигнут лимит запросов");
         }
     }
 
     @Override
-    public ParticipationRequestList getUserRequests(Long userId) {
+    public RequestListDto getUserRequests(Long userId) {
         if (users.existsById(userId)) {
-            return ParticipationRequestList
+            return RequestListDto
                     .builder()
                     .requests(mapper.mapToRequestDtoList(requests.findAllByRequesterUserId(userId)))
                     .build();
         } else {
-            throw new NotFoundException("User with id=" + userId + " was not found");
+            throw new NotFoundException("Пользователь с id=" + userId + " не найдено");
         }
     }
 
     @Override
     @Transactional
-    public ParticipationRequestDto canceledRequest(Long userId, Long requestId) {
+    public RequestDto canceledRequest(Long userId, Long requestId) {
         if (!users.existsById(userId)) {
-            throw new NotFoundException("User with id=" + userId + " was not found");
+            throw new NotFoundException("Пользователь с id=" + userId + " не найдено");
         }
         Request request = requests.findById(requestId)
-                .orElseThrow(() -> new NotFoundException("Request with id=" + requestId + " was not found"));
+                .orElseThrow(() -> new NotFoundException("Запрос с id=" + requestId + " не найден"));
         Event event = request.getEvent();
         if (request.getStatus().equals(RequestStatus.CONFIRMED)) {
             event.setConfirmedRequests(event.getConfirmedRequests() - 1);
@@ -89,10 +89,10 @@ public class RequestServiceImp implements RequestService {
 
     private void validateCreatingRequest(Event event, Long userId) {
         if (event.getInitiator().getUserId().equals(userId)) {
-            throw new AccessException("You can't create a request to participate in your own event");
+            throw new AccessException("Вы не можете создать запрос на участие в вашем собственном мероприятии");
         }
         if (event.getState() != State.PUBLISHED) {
-            throw new AccessException("You cannot participate in an unpublished event");
+            throw new AccessException("Вы не можете участвовать в неопубликованном мероприятии");
         }
     }
 }

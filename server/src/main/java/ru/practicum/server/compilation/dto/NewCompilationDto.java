@@ -11,6 +11,6 @@ import java.util.List;
 public class NewCompilationDto {
     private List<Long> events;
     private Boolean pinned;
-    @NotNull(message = "Field: title. Error: must not be blank. Value: null")
+    @NotNull(message = "Не длжен быть null")
     private String title;
 }

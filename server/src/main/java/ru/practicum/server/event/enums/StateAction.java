@@ -16,10 +16,10 @@ public enum StateAction {
                 case PUBLISH_EVENT:
                     return State.PUBLISHED;
                 default:
-                    throw new EventUpdateException("Event must not be published");
+                    throw new EventUpdateException("Событие не опубликовано");
         }
         } catch (IllegalArgumentException e) {
-            throw new EventUpdateException("Event must not be published");
+            throw new EventUpdateException("Событие не опубликовано");
         }
     }
 }

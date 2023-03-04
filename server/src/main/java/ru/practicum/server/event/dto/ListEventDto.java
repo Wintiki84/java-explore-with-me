@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class ListEventFullDto {
+public class ListEventDto {
     @JsonValue
-    private List<EventFullDto> events;
+    private List<EventDto> events;
 }

@@ -24,7 +24,7 @@ public class PublicCompilationController {
 
     @GetMapping("{compId}")
     public ResponseEntity<CompilationDtoResp> getCompilation(@PathVariable @Min(1) Long compId) {
-        log.info("get compilation with id={}", compId);
+        log.info("получить компиляцию с id={}", compId);
         return ResponseEntity.status(HttpStatus.OK).body(compilationService.getCompilation(compId));
     }
 

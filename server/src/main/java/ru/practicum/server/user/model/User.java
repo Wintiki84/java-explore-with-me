@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Getter
@@ -15,13 +14,11 @@ import java.util.Objects;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "user_id")
+    private Long userId;
     @Column(nullable = false)
-    @NotNull
     private String name;
     @Column(nullable = false, unique = true)
-    @NotNull
     private String email;
 
     @Override
@@ -29,7 +26,7 @@ public class User {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
+        return userId != null && Objects.equals(userId, user.userId);
     }
 
     @Override
