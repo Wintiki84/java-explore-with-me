@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Builder
 public class UserDto {
     private Long id;
-    @Pattern(regexp = "^[^ ].*[^ ]$", message = "некорректное имя")
+    @Pattern(regexp = "^[a-z]([a-zA-Z0-9]*)?$", message = "некорректное имя")
     @Size(max = 255)
     @NotNull(message = "имя не должно быть null")
     private String name;
