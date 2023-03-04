@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Jacksonized
 public class CategoryDto {
     private Long id;
-    @Pattern(regexp = "^[^ ].*[^ ]$", message = "Ошибка в названии категории")
+    @Pattern(regexp = "^[a-z]([a-zA-Z0-9]*)?$", message = "Ошибка в названии категории")
     @Size(max = 255)
     @NotNull(message = "Название не должно быть пустым")
     private String name;
