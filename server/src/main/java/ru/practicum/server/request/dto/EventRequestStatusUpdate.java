@@ -8,6 +8,6 @@ import java.util.List;
 @Data
 @Builder
 public class EventRequestStatusUpdate {
-    List<Long> requestIds;
-    String status;
+    private List<Long> requestIds;
+    private String status;
 }

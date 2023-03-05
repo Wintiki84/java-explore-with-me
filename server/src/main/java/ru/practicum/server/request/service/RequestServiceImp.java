@@ -50,6 +50,7 @@ public class RequestServiceImp implements RequestService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RequestListDto getUserRequests(Long userId) {
         if (users.existsById(userId)) {
             return RequestListDto

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.server.handler.exception.NotFoundException;
 import ru.practicum.server.user.dto.UserDto;
 import ru.practicum.server.user.dto.UserListDto;
@@ -23,11 +24,13 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mapper;
 
     @Override
+    @Transactional
     public UserDto createUser(UserDto userDto) {
         return mapper.mapToUserDto(usersRepository.save(mapper.mapToUser(userDto)));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserListDto getUsers(List<Long> ids, Pageable pageable) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         if (ids != null && !ids.isEmpty()) {
@@ -46,6 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long userId) {
         if (usersRepository.existsById(userId)) {
             usersRepository.deleteById(userId);

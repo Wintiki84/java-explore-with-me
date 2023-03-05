@@ -29,6 +29,7 @@ public class CompilationServiceImp implements CompilationService {
     private final EventRepository events;
 
     @Override
+    @Transactional
     public CompilationDtoResp addCompilation(NewCompilationDto compilationDto) {
         Set<Event> findEvents = events.findAllByEventIdIn(compilationDto.getEvents());
         Compilation compilation = mapper.mapToCompilation(compilationDto);
@@ -37,6 +38,7 @@ public class CompilationServiceImp implements CompilationService {
     }
 
     @Override
+    @Transactional
     public void deleteCompilation(Long compId) {
         if (compilations.existsById(compId)) {
             compilations.deleteById(compId);
@@ -57,12 +59,14 @@ public class CompilationServiceImp implements CompilationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CompilationDtoResp getCompilation(Long compId) {
         return mapper.mapToCompilationResp(compilations.findById(compId)
                 .orElseThrow(() -> new NotFoundException("Компиляция с id=" + compId + " не найдена")));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CompilationDtoList getCompilations(Boolean pinned, Pageable pageable) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         Page<Compilation> page;

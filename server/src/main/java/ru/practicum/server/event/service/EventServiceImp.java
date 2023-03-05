@@ -52,11 +52,12 @@ public class EventServiceImp implements EventService {
     private final RequestRepository requestRepository;
 
     @Override
+    @Transactional
     public EventDto addNewEvent(Long userId, NewEventDto eventDto) {
         User user = users.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User with id=" + userId + " was not found"));
+                .orElseThrow(() -> new NotFoundException("Пользователь с id=" + userId + " не найден"));
         Category category = categories.findById(eventDto.getCategory()).orElseThrow(
-                () -> new NotFoundException("Category with id=" + eventDto.getCategory() + " was not found"));
+                () -> new NotFoundException("Категория с id=" + eventDto.getCategory() + " не найдена"));
         Event newEvent = mapper.mapToEvent(eventDto);
         if (newEvent.getEventDate().isBefore(LocalDateTime.now().minusHours(2))) {
             throw new AccessException("Field: eventDate. Error: должно содержать дату, которая еще не наступила. " +
@@ -70,6 +71,7 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ListEventShortDto getPrivateUserEvents(Long userId, Pageable pageable) {
         if (users.existsById(userId)) {
             return ListEventShortDto
@@ -77,21 +79,23 @@ public class EventServiceImp implements EventService {
                     .events(mapper.mapToListEventShortDto(events.findAllByInitiatorUserId(userId, pageable)))
                     .build();
         } else {
-            throw new NotFoundException("User with id=" + userId + " was not found");
+            throw new NotFoundException("Пользователь с id=" + userId + " не найден");
         }
     }
 
     @Override
+    @Transactional(readOnly = true)
     public EventDto getPrivateUserEvent(Long userId, Long eventId) {
         if (users.existsById(userId)) {
             return mapper.mapToEventDto(events.findByEventIdAndInitiatorUserId(eventId, userId)
                     .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found")));
         } else {
-            throw new NotFoundException("User with id=" + userId + " was not found");
+            throw new NotFoundException("Пользователь с id=" + userId + " не найден");
         }
     }
 
     @Override
+    @Transactional
     public EventDto updateEventUser(Long userId, Long eventId, UpdateEventUserRequest updateEvent) {
         if (users.existsById(userId)) {
             LocalDateTime eventTime;
@@ -109,7 +113,7 @@ public class EventServiceImp implements EventService {
             }
             if (updateEvent.getCategory() != null) {
                 event.setCategory(categories.findById(updateEvent.getCategory()).orElseThrow(
-                        () -> new NotFoundException("Category with id=" + updateEvent.getCategory() + " was not found")));
+                        () -> new NotFoundException("Категория с id=" + updateEvent.getCategory() + " не найдена")));
             }
             event.setState(StateAction.getState(updateEvent.getStateAction()));
             return mapper.mapToEventDto(events.save(mapper.mapToEvent(updateEvent, event)));
@@ -119,6 +123,7 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ListEventDto getEventsByFiltersForAdmin(List<Long> ids, List<String> states, List<Long> categories,
                                                        LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable) {
         BooleanBuilder booleanBuilder = createQuery(ids, states, categories, rangeStart, rangeEnd);
@@ -135,6 +140,7 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
+    @Transactional
     public EventDto updateEventAdmin(Long eventId, UpdateEventAdminRequest updateEvent) {
         LocalDateTime eventTime;
         if (updateEvent.getEventDate() != null) {
@@ -155,6 +161,7 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RequestListDto getUserEventRequests(Long userId, Long eventId) {
         if (users.existsById(userId)) {
             Event event = events.findByEventIdAndInitiatorUserId(eventId, userId)
@@ -199,30 +206,8 @@ public class EventServiceImp implements EventService {
         event.setViews(statisticClient.getViews(eventId));
         return mapper.mapToEventDto(events.save(event));
     }
-
-    private void changeEventState(Event event, String actionState) {
-        switch (StateAction.getState(actionState)) {
-            case PUBLISHED:
-                if (event.getState().equals(State.PENDING)) {
-                    event.setState(State.PUBLISHED);
-                    event.setPublishedOn(LocalDateTime.now());
-                    break;
-                } else {
-                    throw new EventStateException("не правильное состояние события:" +
-                            event.getState());
-                }
-            case CANCELED:
-                if (event.getState().equals(State.PENDING)) {
-                    event.setState(State.CANCELED);
-                    break;
-                } else {
-                    throw new EventStateException("не правильное состояние события: " +
-                            event.getState());
-                }
-        }
-    }
-
     @Override
+    @Transactional(readOnly = true)
     public ListEventShortDto getEventsByFiltersPublic(String text, List<Long> categories, Boolean paid,
                                                       LocalDateTime rangeStart, LocalDateTime rangeEnd,
                                                       Boolean onlyAvailable,
@@ -313,5 +298,27 @@ public class EventServiceImp implements EventService {
                 rejectedRequests.add(r);
             }
         });
+    }
+
+    private void changeEventState(Event event, String actionState) {
+        switch (StateAction.getState(actionState)) {
+            case PUBLISHED:
+                if (event.getState().equals(State.PENDING)) {
+                    event.setState(State.PUBLISHED);
+                    event.setPublishedOn(LocalDateTime.now());
+                    break;
+                } else {
+                    throw new EventStateException("не правильное состояние события:" +
+                            event.getState());
+                }
+            case CANCELED:
+                if (event.getState().equals(State.PENDING)) {
+                    event.setState(State.CANCELED);
+                    break;
+                } else {
+                    throw new EventStateException("не правильное состояние события: " +
+                            event.getState());
+                }
+        }
     }
 }

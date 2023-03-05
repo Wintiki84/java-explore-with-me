@@ -1,5 +1,6 @@
 package ru.practicum.server.handler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 @RestControllerAdvice("ru.practicum.server")
+@Slf4j
 public class ErrorHandler {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -32,6 +34,7 @@ public class ErrorHandler {
                 .status(HttpStatus.BAD_REQUEST.toString())
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
+        log.info("HttpStatus.BAD_REQUEST:{}", errorResponse);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
@@ -44,6 +47,7 @@ public class ErrorHandler {
                 .status(String.valueOf(HttpStatus.CONFLICT))
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
+        log.info("HttpStatus.CONFLICT:{}", errorResponse);
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(errorResponse);
@@ -58,6 +62,7 @@ public class ErrorHandler {
                 .status(HttpStatus.NOT_FOUND.toString())
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
+        log.info("HttpStatus.NOT_FOUND:{}", errorResponse);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
@@ -70,6 +75,7 @@ public class ErrorHandler {
                 .status(HttpStatus.BAD_REQUEST.toString())
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
+        log.info("HttpStatus.BAD_REQUEST:{}", errorResponse);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
@@ -82,6 +88,7 @@ public class ErrorHandler {
                 .status(HttpStatus.CONFLICT.toString())
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
+        log.info("HttpStatus.CONFLICT:{}", errorResponse);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
@@ -95,6 +102,7 @@ public class ErrorHandler {
                 .status(HttpStatus.BAD_REQUEST.toString())
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
+        log.info("HttpStatus.BAD_REQUEST:{}", errorResponse);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }

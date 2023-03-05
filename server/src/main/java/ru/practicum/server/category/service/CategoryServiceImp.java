@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.server.category.dto.CategoryDto;
 import ru.practicum.server.category.dto.ListCategoryDto;
 import ru.practicum.server.category.mapper.CategoryMapper;
@@ -18,11 +19,13 @@ public class CategoryServiceImp implements CategoryService {
     private final CategoryMapper mapper;
 
     @Override
+    @Transactional
     public CategoryDto createCategory(CategoryDto categoryDto) {
         return mapper.mapToCategoryDto(categories.save(mapper.mapToCategory(categoryDto)));
     }
 
     @Override
+    @Transactional
     public CategoryDto updateCategory(CategoryDto updateCategory, Long catId) {
         if (categories.existsById(catId)) {
             return mapper.mapToCategoryDto(categories.save(mapper.mapToCategory(updateCategory)));
@@ -32,6 +35,7 @@ public class CategoryServiceImp implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void deleteCategory(Long catId) {
         if (!categories.existsById(catId)) {
             throw new NotFoundException("Категория с id=" + catId + " не найдена");
@@ -42,6 +46,7 @@ public class CategoryServiceImp implements CategoryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ListCategoryDto getCategories(Pageable pageable) {
         return ListCategoryDto
                 .builder()
@@ -50,6 +55,7 @@ public class CategoryServiceImp implements CategoryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CategoryDto getCategoryById(Long catId) {
         return mapper.mapToCategoryDto(categories.findById(catId)
                 .orElseThrow(() -> new NotFoundException("Категория с id=" + catId + " не найдена")));
