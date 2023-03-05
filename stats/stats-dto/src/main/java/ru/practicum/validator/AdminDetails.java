@@ -1,4 +1,4 @@
 package ru.practicum.validator;
 
-public class AdminDetails {
+public interface AdminDetails {
 }
