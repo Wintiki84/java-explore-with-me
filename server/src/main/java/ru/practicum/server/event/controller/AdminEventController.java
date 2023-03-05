@@ -17,7 +17,6 @@ import ru.practicum.server.event.service.EventService;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController

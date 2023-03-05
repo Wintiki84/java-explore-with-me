@@ -88,7 +88,7 @@ public class EventServiceImp implements EventService {
     public EventDto getPrivateUserEvent(Long userId, Long eventId) {
         if (users.existsById(userId)) {
             return mapper.mapToEventDto(events.findByEventIdAndInitiatorUserId(eventId, userId)
-                    .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found")));
+                    .orElseThrow(() -> new NotFoundException("Событие с id=" + eventId + " не найдено")));
         } else {
             throw new NotFoundException("Пользователь с id=" + userId + " не найден");
         }
@@ -107,9 +107,9 @@ public class EventServiceImp implements EventService {
                 }
             }
             Event event = events.findByEventIdAndInitiatorUserId(eventId, userId)
-                    .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
+                    .orElseThrow(() -> new NotFoundException("Событие с id=" + eventId + " не найдено"));
             if (event.getState().equals(State.PUBLISHED)) {
-                throw new AccessException("Only pending or canceled events can be changed");
+                throw new AccessException("Могут быть изменены только ожидающие или отмененные события");
             }
             if (updateEvent.getCategory() != null) {
                 event.setCategory(categories.findById(updateEvent.getCategory()).orElseThrow(
@@ -118,14 +118,15 @@ public class EventServiceImp implements EventService {
             event.setState(StateAction.getState(updateEvent.getStateAction()));
             return mapper.mapToEventDto(events.save(mapper.mapToEvent(updateEvent, event)));
         } else {
-            throw new NotFoundException("User with id=" + userId + " was not found");
+            throw new NotFoundException("Пользователь с id=" + userId + " не найден");
         }
     }
 
     @Override
     @Transactional(readOnly = true)
     public ListEventDto getEventsByFiltersForAdmin(List<Long> ids, List<String> states, List<Long> categories,
-                                                       LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable) {
+                                                   LocalDateTime rangeStart, LocalDateTime rangeEnd,
+                                                   Pageable pageable) {
         BooleanBuilder booleanBuilder = createQuery(ids, states, categories, rangeStart, rangeEnd);
         Page<Event> page;
         if (booleanBuilder.getValue() != null) {
@@ -151,11 +152,11 @@ public class EventServiceImp implements EventService {
             }
         }
         Event event = events.findById(eventId).orElseThrow(
-                () -> new NotFoundException("Event with id=" + eventId + " was not found"));
+                () -> new NotFoundException("Событие с id=" + eventId + " не найдено"));
         changeEventState(event, updateEvent.getStateAction());
         if (updateEvent.getCategory() != null) {
             event.setCategory(categories.findById(updateEvent.getCategory()).orElseThrow(
-                    () -> new NotFoundException("Category with id=" + updateEvent.getCategory() + " was not found")));
+                    () -> new NotFoundException("Категория с id=" + event.getCategory() + " не найдена")));
         }
         return mapper.mapToEventDto(events.save(mapper.mapToEvent(updateEvent, event)));
     }
@@ -165,13 +166,14 @@ public class EventServiceImp implements EventService {
     public RequestListDto getUserEventRequests(Long userId, Long eventId) {
         if (users.existsById(userId)) {
             Event event = events.findByEventIdAndInitiatorUserId(eventId, userId)
-                    .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
+                    .orElseThrow(() -> new NotFoundException("Событие с id=" + eventId + " не найдено"));
             return RequestListDto
                     .builder()
-                    .requests(event.getRequests().stream().map(requestMapper::mapToRequestDto).collect(Collectors.toList()))
+                    .requests(event.getRequests().stream().map(requestMapper::mapToRequestDto)
+                            .collect(Collectors.toList()))
                     .build();
         } else {
-            throw new NotFoundException("User with id=" + userId + " was not found");
+            throw new NotFoundException("Пользователь с id=" + userId + " не найден");
         }
     }
 
@@ -180,9 +182,9 @@ public class EventServiceImp implements EventService {
     public EventRequestStatusUpdateResult approveRequests(Long userId, Long eventId, EventRequestStatusUpdate requests) {
         if (users.existsById(userId)) {
             Event event = events.findByEventIdAndInitiatorUserId(eventId, userId)
-                    .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
+                    .orElseThrow(() -> new NotFoundException("Событие с id=" + eventId + " не найдено"));
             if (event.getParticipantLimit() <= event.getConfirmedRequests()) {
-                throw new AccessException("The participant limit has been reached");
+                throw new AccessException("Лимит участников достигнут");
             }
             List<RequestDto> confirmedRequests = new ArrayList<>();
             List<RequestDto> rejectedRequests = new ArrayList<>();
@@ -193,7 +195,7 @@ public class EventServiceImp implements EventService {
                     .rejectedRequests(rejectedRequests)
                     .build();
         } else {
-            throw new NotFoundException("User with id=" + userId + " was not found");
+            throw new NotFoundException("Пользователь с id=" + userId + " не найден");
         }
     }
 
@@ -202,10 +204,11 @@ public class EventServiceImp implements EventService {
     public EventDto getEventByIdPublic(Long eventId, HttpServletRequest servlet) {
         statisticClient.postStats(servlet, "ewm-server");
         Event event = events.findByEventIdAndState(eventId, State.PUBLISHED)
-                .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
+                .orElseThrow(() -> new NotFoundException("Событие с id=" + eventId + " не найдено"));
         event.setViews(statisticClient.getViews(eventId));
         return mapper.mapToEventDto(events.save(event));
     }
+
     @Override
     @Transactional(readOnly = true)
     public ListEventShortDto getEventsByFiltersPublic(String text, List<Long> categories, Boolean paid,

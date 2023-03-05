@@ -48,9 +48,7 @@ public class ErrorHandler {
                 .timestamp(LocalDateTime.now().format(formatter))
                 .build();
         log.info("HttpStatus.CONFLICT:{}", errorResponse);
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(errorResponse);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
     @ExceptionHandler(NotFoundException.class)
