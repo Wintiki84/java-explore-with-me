@@ -28,6 +28,6 @@ public class NewEventDto {
     private Integer participantLimit;
     private Boolean requestModeration;
     @Size(min = 3, max = 120, message = "длин заглавия длжна быть min = 3, max = 120")
-    @NotNull(message = "заглавие не должна быть nulll")
+    @NotNull(message = "заглавие не должна быть null")
     private String title;
 }
