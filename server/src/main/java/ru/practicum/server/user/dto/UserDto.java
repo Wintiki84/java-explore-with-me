@@ -19,4 +19,5 @@ public class UserDto {
     @Email(message = "некорректный email")
     @NotNull
     private String email;
+    private Boolean areCommentsBlocked;
 }
