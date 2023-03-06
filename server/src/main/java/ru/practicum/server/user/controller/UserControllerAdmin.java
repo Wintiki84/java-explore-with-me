@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.server.user.dto.UserBlockCommentStatusUpd;
 import ru.practicum.server.user.dto.UserDto;
 import ru.practicum.server.user.dto.UserListDto;
 import ru.practicum.server.user.service.UserService;
@@ -43,5 +44,12 @@ public class UserControllerAdmin {
         log.info("удалить пользователя с id={}", userId);
         userService.deleteUser(userId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping("comments")
+    public ResponseEntity<UserListDto> changeCommentBlockedStatus(
+            @RequestBody @Valid UserBlockCommentStatusUpd users) {
+        log.info("change block status users:{}", users);
+        return ResponseEntity.status(HttpStatus.OK).body(userService.changeUserCommentsStatus(users));
     }
 }

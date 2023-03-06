@@ -1,6 +1,7 @@
 package ru.practicum.server.user.service;
 
 import org.springframework.data.domain.Pageable;
+import ru.practicum.server.user.dto.UserBlockCommentStatusUpd;
 import ru.practicum.server.user.dto.UserDto;
 import ru.practicum.server.user.dto.UserListDto;
 
@@ -12,4 +13,5 @@ public interface UserService {
     UserListDto getUsers(List<Long> ids, Pageable pageable);
 
     void deleteUser(Long userId);
+    UserListDto changeUserCommentsStatus(UserBlockCommentStatusUpd users);
 }
