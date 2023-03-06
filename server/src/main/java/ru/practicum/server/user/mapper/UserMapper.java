@@ -16,6 +16,4 @@ public interface UserMapper {
     UserDto mapToUserDto(User user);
 
     List<UserDto> mapToUserDto(Page<User> page);
-
-    //UserShortDto mapToUserShortDto(User user);
 }

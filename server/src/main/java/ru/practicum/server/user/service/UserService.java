@@ -13,5 +13,6 @@ public interface UserService {
     UserListDto getUsers(List<Long> ids, Pageable pageable);
 
     void deleteUser(Long userId);
+
     UserListDto changeUserCommentsStatus(UserBlockCommentStatusUpd users);
 }
