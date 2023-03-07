@@ -1,5 +1,6 @@
 package ru.practicum.server.user.dto;
 
+import jdk.jfr.BooleanFlag;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,5 +20,6 @@ public class UserDto {
     @Email(message = "некорректный email")
     @NotNull
     private String email;
+    @BooleanFlag
     private Boolean areCommentsBlocked;
 }

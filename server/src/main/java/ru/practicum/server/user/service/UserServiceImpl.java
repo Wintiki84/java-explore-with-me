@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto createUser(UserDto userDto) {
+        userDto.setAreCommentsBlocked(false);
         return mapper.mapToUserDto(usersRepository.save(mapper.mapToUser(userDto)));
     }
 
