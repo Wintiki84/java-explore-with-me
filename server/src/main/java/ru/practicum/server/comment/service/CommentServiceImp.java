@@ -151,8 +151,8 @@ public class CommentServiceImp implements CommentService {
 
     private Comment findByCommentIdAndAuthorId(Long commentId, Long userId) {
         return commentRepository.findByIdAndAuthorId(commentId, userId)
-                .orElseThrow(() -> new NotFoundException("Коммантарий с id=" + commentId+ " пользователя с id="
-                        + userId + " не найден"));
+                .orElseThrow(() -> new NotFoundException("Коммантарий с id=" + commentId + " пользователя с id=" +
+                        userId + " не найден"));
     }
 
     private User findByUserId(Long userId) {
