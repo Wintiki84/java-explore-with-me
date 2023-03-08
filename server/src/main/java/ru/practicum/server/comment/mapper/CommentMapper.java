@@ -7,7 +7,7 @@ import ru.practicum.server.comment.model.Comment;
 
 import java.util.Set;
 
-import static ru.practicum.constants.constants.DATE_FORMAT;
+import static ru.practicum.constants.Constants.DATE_FORMAT;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {

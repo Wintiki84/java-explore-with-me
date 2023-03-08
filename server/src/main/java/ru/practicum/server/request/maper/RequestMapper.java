@@ -7,7 +7,7 @@ import ru.practicum.server.request.model.Request;
 
 import java.util.List;
 
-import static ru.practicum.constants.constants.DATE_FORMAT;
+import static ru.practicum.constants.Constants.DATE_FORMAT;
 
 @Mapper(componentModel = "spring")
 public interface RequestMapper {
