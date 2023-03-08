@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Builder;
 import lombok.Data;
 import ru.practicum.server.request.enums.RequestStatus;
-import ru.practicum.validator.Create;
 import ru.practicum.validator.Private;
-import ru.practicum.validator.Update;
 
 import javax.validation.constraints.*;
 

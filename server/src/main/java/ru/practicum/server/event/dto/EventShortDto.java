@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import ru.practicum.server.category.dto.CategoryDto;
 import ru.practicum.server.user.dto.UserDto;
-import ru.practicum.validator.AdminDetails;
 import ru.practicum.validator.Details;
 import ru.practicum.validator.Private;
 

@@ -1,7 +1,6 @@
 package ru.practicum.server.user.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 import ru.practicum.server.user.dto.UserDto;
 import ru.practicum.server.user.model.User;
