@@ -12,7 +12,6 @@ import java.util.List;
 public interface UserMapper {
     User mapToUser(UserDto userDto);
 
-    @Mapping(source = "userId", target = "id")
     UserDto mapToUserDto(User user);
 
     List<UserDto> mapToUserDto(Page<User> page);

@@ -18,6 +18,8 @@ import ru.practicum.server.request.repository.RequestRepository;
 import ru.practicum.server.user.model.User;
 import ru.practicum.server.user.repository.UserRepository;
 
+import javax.validation.constraints.NotNull;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RequestServiceImp implements RequestService {
@@ -28,11 +30,10 @@ public class RequestServiceImp implements RequestService {
 
     @Override
     @Transactional
-    public RequestDto createRequest(Long userId, Long eventId) {
-        Event event = events.findById(eventId)
-                .orElseThrow(() -> new NotFoundException("Событие с id=" + eventId + " не найдено"));
-        User requester = users.findById(userId)
-                .orElseThrow(() -> new NotFoundException("Пользователь с id=" + userId + " не найдено"));
+    @NotNull
+    public RequestDto createRequest(@NotNull Long userId, @NotNull Long eventId) {
+        Event event = findByEventId(eventId);
+        User requester = findByUserId(userId);
         validateCreatingRequest(event, userId);
         if (event.getParticipantLimit() == 0 || event.getParticipantLimit() > event.getConfirmedRequests()) {
             var newRequest = preparationRequest(event, requester);
@@ -51,25 +52,21 @@ public class RequestServiceImp implements RequestService {
 
     @Override
     @Transactional(readOnly = true)
-    public RequestListDto getUserRequests(Long userId) {
-        if (users.existsById(userId)) {
+    @NotNull
+    public RequestListDto getUserRequests(@NotNull Long userId) {
+        findByUserId(userId);
             return RequestListDto
                     .builder()
-                    .requests(mapper.mapToRequestDtoList(requests.findAllByRequesterUserId(userId)))
+                    .requests(mapper.mapToRequestDtoList(requests.findAllByRequesterId(userId)))
                     .build();
-        } else {
-            throw new NotFoundException("Пользователь с id=" + userId + " не найдено");
-        }
     }
 
     @Override
     @Transactional
-    public RequestDto canceledRequest(Long userId, Long requestId) {
-        if (!users.existsById(userId)) {
-            throw new NotFoundException("Пользователь с id=" + userId + " не найдено");
-        }
-        Request request = requests.findById(requestId)
-                .orElseThrow(() -> new NotFoundException("Запрос с id=" + requestId + " не найден"));
+    @NotNull
+    public RequestDto canceledRequest(@NotNull Long userId, @NotNull Long requestId) {
+        findByUserId(userId);
+        Request request = findByRequestId(requestId);
         Event event = request.getEvent();
         if (request.getStatus().equals(RequestStatus.CONFIRMED)) {
             event.setConfirmedRequests(event.getConfirmedRequests() - 1);
@@ -89,11 +86,26 @@ public class RequestServiceImp implements RequestService {
     }
 
     private void validateCreatingRequest(Event event, Long userId) {
-        if (event.getInitiator().getUserId().equals(userId)) {
+        if (event.getInitiator().getId().equals(userId)) {
             throw new AccessException("Вы не можете создать запрос на участие в вашем собственном мероприятии");
         }
         if (event.getState() != State.PUBLISHED) {
             throw new AccessException("Вы не можете участвовать в неопубликованном мероприятии");
         }
+    }
+
+    private User findByUserId(Long userId) {
+        return users.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Пользователь с id=" + userId + " не найден"));
+    }
+
+    private Event findByEventId(Long eventId) {
+        return events.findById(eventId)
+                .orElseThrow(() -> new NotFoundException("Событие с id=" + eventId + " не найдено"));
+    }
+
+    private Request findByRequestId(Long requestId) {
+        return requests.findById(requestId)
+                .orElseThrow(() -> new NotFoundException("Запрос с id=" + requestId + " не найден"));
     }
 }

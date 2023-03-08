@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.server.comment.dto.CommentDtoList;
-import ru.practicum.server.comment.dto.CommentDtoResponse;
-import ru.practicum.server.comment.dto.CommentDtoUpdate;
-import ru.practicum.server.comment.dto.NewCommentDto;
+import ru.practicum.server.comment.dto.CommentDto;
 import ru.practicum.server.comment.enums.CommentState;
 import ru.practicum.server.comment.mapper.CommentMapper;
 import ru.practicum.server.comment.model.Comment;
@@ -23,6 +21,7 @@ import ru.practicum.server.report.repository.ReportRepository;
 import ru.practicum.server.user.model.User;
 import ru.practicum.server.user.repository.UserRepository;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
@@ -36,54 +35,55 @@ public class CommentServiceImp implements CommentService {
     private final ReportRepository reportRepository;
 
     @Override
-    public CommentDtoResponse addComment(Long userId, Long eventId, NewCommentDto newComment) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User with id=" + userId + " was not found"));
+    @NotNull
+    @Transactional
+    public CommentDto addComment(@NotNull Long userId, @NotNull Long eventId,
+                                         @NotNull CommentDto newComment) {
+        User user = findByUserId(userId);
         Event event;
-        if (user.getAreCommentsBlocked()) {
-            throw new AccessException("A user with id=" + userId + " has comments blocked");
+        if (user.getCommentsAreProhibited()) {
+            throw new AccessException("У пользователя с id=" + userId + " заблокированы комментарии");
         }
         event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
+                .orElseThrow(() -> new NotFoundException("Событие с id=" + eventId + " не найдено"));
         if (!event.getState().equals(State.PUBLISHED)) {
-            throw new AccessException("It is not possible to add a comment to an event in the status " + event.getState());
+            throw new AccessException("Невозможно добавить комментарий к событию в статусе " + event.getState());
         }
         Comment comment = mapper.mapToComment(newComment);
         comment.setAuthor(user);
         comment.setEvent(event);
         comment.setCreated(LocalDateTime.now());
-        return mapper.mapToCommentResponse(commentRepository.save(comment));
+        comment.setState(CommentState.NOT_EDIT);
+        return mapper.mapToCommentDto(commentRepository.save(comment));
+    }
+
+    @Override
+    @NotNull
+    @Transactional
+    public CommentDto updateCommentUser(@NotNull Long userId, @NotNull Long commentId,
+                                                @NotNull CommentDto updateComment) {
+        Comment comment = findByCommentIdAndAuthorId(commentId, userId);
+        if (LocalDateTime.now().isAfter(comment.getCreated().plusHours(1))) {
+            throw new CommentException("Нельзя обновить комментарий, созданный более 1 часа назад");
+        }
+        comment.setState(CommentState.EDITED);
+        return mapper.mapToCommentDto(commentRepository.save(mapper.mapToComment(updateComment, comment)));
     }
 
     @Override
     @Transactional
-    public CommentDtoResponse updateCommentUser(Long userId, Long commentId, CommentDtoUpdate updateComment) {
-        Comment comment = commentRepository.findByCommentIdAndAuthorUserId(commentId, userId)
-                .orElseThrow(() -> new NotFoundException("Comment with commentId=" + commentId
-                        + " and userId=" + userId + " not found"));
-        if (LocalDateTime.now().isAfter(comment.getCreated().plusHours(2))) {
-            throw new CommentException("Сan't edit a comment that was created more than 2 hours ago");
-        }
-        comment.setState(CommentState.EDITED);
-        return mapper.mapToCommentResponse(commentRepository.save(mapper.mapToComment(updateComment, comment)));
-    }
-
-    @Override
     public void deleteCommentUser(Long commentId, Long userId) {
-        Comment comment = commentRepository.findByCommentIdAndAuthorUserId(commentId, userId)
-                .orElseThrow(() -> new NotFoundException("Comment with commentId=" + commentId
-                        + " and userId=" + userId + " not found"));
-        if (LocalDateTime.now().isAfter(comment.getCreated().plusHours(2))) {
-            throw new CommentException("Сan't delete a comment that was created more than 2 hours ago");
+        Comment comment = findByCommentIdAndAuthorId(commentId, userId);
+        if (LocalDateTime.now().isAfter(comment.getCreated().plusHours(1))) {
+            throw new CommentException("Нельзя удалить комментарий, созданный более 1 часа назад");
         }
         commentRepository.deleteById(commentId);
     }
 
     @Override
-    public void reportComment(Long commentId, Long userId) {
-        Comment comment = commentRepository.findByCommentIdAndAuthorUserId(commentId, userId)
-                .orElseThrow(() -> new NotFoundException("Comment with commentId=" + commentId
-                        + " and userId=" + userId + " not found"));
+    @Transactional
+    public void reportComment(@NotNull Long commentId, @NotNull Long userId) {
+        Comment comment = findByCommentIdAndAuthorId(commentId, userId);
         Report report = new Report();
         report.setReportedUser(comment.getAuthor());
         report.setReportedMessage(comment.getText());
@@ -91,53 +91,72 @@ public class CommentServiceImp implements CommentService {
     }
 
     @Override
-    public void deleteCommentAdmin(Long commentId, Long userId) {
-        if (commentRepository.existsByCommentIdAndAuthorUserId(commentId, userId)) {
-            commentRepository.deleteById(commentId);
-        } else {
-            throw new NotFoundException("Comment with commentId=" + commentId
-                    + " and userId=" + userId + " not found");
-        }
+    @Transactional
+    public void deleteCommentAdmin(@NotNull Long commentId, @NotNull Long userId) {
+        findByCommentIdAndAuthorId(commentId, userId);
+        commentRepository.deleteById(commentId);
     }
 
     @Override
-    public CommentDtoResponse updateCommentAdmin(Long userId, Long commentId, CommentDtoUpdate updateComment) {
-        Comment comment = commentRepository.findByCommentIdAndAuthorUserId(commentId, userId)
-                .orElseThrow(() -> new NotFoundException("Comment with commentId=" + commentId
-                        + " and userId=" + userId + " not found"));
+    @NotNull
+    @Transactional
+    public CommentDto updateCommentAdmin(@NotNull Long userId, @NotNull Long commentId,
+                                                 @NotNull CommentDto updateComment) {
+        Comment comment = findByCommentIdAndAuthorId(commentId, userId);
         comment.setState(CommentState.EDITED);
-        return mapper.mapToCommentResponse(commentRepository.save(mapper.mapToComment(updateComment, comment)));
+        return mapper.mapToCommentDto(commentRepository.save(mapper.mapToComment(updateComment, comment)));
     }
 
     @Override
-    public CommentDtoResponse getCommentPrivate(Long userId, Long commentId) {
-        Comment comment = commentRepository.findByCommentIdAndAuthorUserId(commentId, userId)
-                .orElseThrow(() -> new NotFoundException("Comment with commentId=" + commentId
-                        + " and userId=" + userId + " not found"));
-        return mapper.mapToCommentResponse(comment);
+    @NotNull
+    @Transactional(readOnly = true)
+    public CommentDto getCommentPrivate(@NotNull Long userId, @NotNull Long commentId) {
+        Comment comment = findByCommentIdAndAuthorId(commentId, userId);
+        return mapper.mapToCommentDto(comment);
     }
 
     @Override
-    public CommentDtoList getCommentsPrivate(Long userId, Long eventId) {
+    @NotNull
+    @Transactional(readOnly = true)
+    public CommentDtoList getCommentsPrivate(@NotNull Long userId, @NotNull Long eventId) {
         return CommentDtoList
                 .builder()
-                .comments(commentRepository.findAllByAuthorUserIdAndEventEventId(userId, eventId).stream()
+                .comments(commentRepository.findAllByAuthorIdAndEventId(userId, eventId).stream()
                         .map(mapper::mapToCommentShortDto).collect(Collectors.toList()))
                 .build();
     }
 
     @Override
-    public CommentDtoList getCommentsPublic(Long eventId) {
+    @NotNull
+    @Transactional(readOnly = true)
+    public CommentDtoList getCommentsPublic(@NotNull Long eventId) {
         return CommentDtoList
                 .builder()
-                .comments(commentRepository.findAllByEventEventId(eventId).stream()
+                .comments(commentRepository.findAllByEventId(eventId).stream()
                         .map(mapper::mapToCommentShortDto).collect(Collectors.toList()))
                 .build();
     }
 
     @Override
-    public CommentDtoResponse getCommentPublic(Long commentId) {
-        return mapper.mapToCommentResponse(commentRepository.findById(commentId)
-                .orElseThrow(() -> new NotFoundException("Comment with commentId=" + commentId + " not found")));
+    @NotNull
+    @Transactional(readOnly = true)
+    public CommentDto getCommentPublic(@NotNull Long commentId) {
+        return mapper.mapToCommentDto(findByCommentId(commentId));
+    }
+
+    private Comment findByCommentId(Long commentId) {
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new NotFoundException("Коммантарий с id=" + commentId + " не найден"));
+    }
+
+    private Comment findByCommentIdAndAuthorId(Long commentId, Long userId) {
+        return commentRepository.findByIdAndAuthorId(commentId, userId)
+                .orElseThrow(() -> new NotFoundException("Коммантарий с id=" + commentId+ " пользователя с id=" +
+                        userId + " не найден"));
+    }
+
+    private User findByUserId(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Пользователь с id=" + userId + " не найден"));
     }
 }

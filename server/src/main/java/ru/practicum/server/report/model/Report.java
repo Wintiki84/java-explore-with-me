@@ -15,10 +15,10 @@ import java.util.Objects;
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "report_id")
-    private Long reportId;
+    @Column(nullable = false)
+    private Long id;
     @ManyToOne
-    @JoinColumn(name = "reported_user")
+    @JoinColumn(name = "reported_user", nullable = false)
     private User reportedUser;
     @Column(name = "reported_message", nullable = false)
     private String reportedMessage;
@@ -28,7 +28,7 @@ public class Report {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Report report = (Report) o;
-        return reportId != null && Objects.equals(reportId, report.reportId);
+        return id != null && Objects.equals(id, report.id);
     }
 
     @Override

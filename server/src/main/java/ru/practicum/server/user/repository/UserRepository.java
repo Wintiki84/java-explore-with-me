@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Long>, QuerydslPredicateExecutor<User> {
-    List<User> findAllByUserIdIn(List<Long> ids);
+    List<User> findAllByIdIn(List<Long> ids);
 }

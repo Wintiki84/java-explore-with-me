@@ -5,6 +5,8 @@ import org.mapstruct.Mapping;
 import ru.practicum.dto.EndpointHitDto;
 import ru.practicum.server.model.EndpointHit;
 
+import static ru.practicum.constants.constants.DATE_FORMAT;
+
 
 @Mapper
 public interface StatsMapper {
@@ -12,13 +14,13 @@ public interface StatsMapper {
     @Mapping(
             source = "timestamp",
             target = "timestamp",
-            dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormat = DATE_FORMAT
     )
     EndpointHit mapToEndpointHit(EndpointHitDto endpointHitDto);
 
     @Mapping(source = "timestamp",
             target = "timestamp",
-            dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormat = DATE_FORMAT
     )
     EndpointHitDto mapToEndpointHitDto(EndpointHit endpointHit);
 }

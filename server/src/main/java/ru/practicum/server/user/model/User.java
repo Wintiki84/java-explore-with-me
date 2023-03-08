@@ -14,21 +14,21 @@ import java.util.Objects;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(nullable = false)
+    private Long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false, unique = true)
     private String email;
-    @Column(name = "are_comments_blocked")
-    private Boolean areCommentsBlocked = Boolean.FALSE;
+    @Column(name = "comments_are_prohibited", nullable = false)
+    private Boolean commentsAreProhibited = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-        return userId != null && Objects.equals(userId, user.userId);
+        return id != null && Objects.equals(id, user.id);
     }
 
     @Override

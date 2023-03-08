@@ -18,8 +18,8 @@ import java.util.Objects;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
-    private Long commentId;
+    @Column(nullable = false)
+    private Long id;
     @Column(nullable = false)
     private String text;
     @Enumerated(EnumType.STRING)
@@ -38,7 +38,7 @@ public class Comment {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Comment comment = (Comment) o;
-        return commentId != null && Objects.equals(commentId, comment.commentId);
+        return id != null && Objects.equals(id, comment.id);
     }
 
     @Override

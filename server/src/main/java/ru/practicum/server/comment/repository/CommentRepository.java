@@ -9,11 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    Optional<Comment> findByCommentIdAndAuthorUserId(Long commentId, Long userId);
+    Optional<Comment> findByIdAndAuthorId(Long commentId, Long userId);
 
-    Boolean existsByCommentIdAndAuthorUserId(Long commentId, Long userId);
+    List<Comment> findAllByAuthorIdAndEventId(Long userId, Long eventId);
 
-    List<Comment> findAllByAuthorUserIdAndEventEventId(Long userId, Long eventId);
-
-    List<Comment> findAllByEventEventId(Long eventId);
+    List<Comment> findAllByEventId(Long eventId);
 }

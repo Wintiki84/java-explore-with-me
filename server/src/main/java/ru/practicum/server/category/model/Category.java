@@ -14,8 +14,8 @@ import java.util.Objects;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
-    private Long categoryId;
+    @Column(nullable = false)
+    private Long id;
     @Column(nullable = false, unique = true)
     private String name;
 
@@ -24,7 +24,7 @@ public class Category {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Category category = (Category) o;
-        return categoryId != null && Objects.equals(categoryId, category.categoryId);
+        return id != null && Objects.equals(id, category.id);
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static ru.practicum.constants.constants.DATE_FORMAT;
 
 @Target({ElementType.PARAMETER, FIELD})
 @Retention(RUNTIME)
@@ -17,5 +18,5 @@ public @interface DateValidator {
     String message() default "Формат даты не соответствует {dateFormat}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-    String dateFormat() default "yyyy-MM-dd HH:mm:ss";
+    String dateFormat() default DATE_FORMAT;
 }

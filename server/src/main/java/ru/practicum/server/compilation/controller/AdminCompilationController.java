@@ -7,13 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.server.compilation.dto.CompilationDtoResp;
-import ru.practicum.server.compilation.dto.NewCompilationDto;
-import ru.practicum.server.compilation.dto.UpdateCompilationRequest;
+import ru.practicum.server.compilation.dto.CompilationDtoRequest;
+import ru.practicum.server.compilation.dto.CompilationDtoResponse;
 import ru.practicum.server.compilation.service.CompilationService;
+import ru.practicum.validator.Create;
+import ru.practicum.validator.Update;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/admin/compilations")
@@ -24,21 +24,23 @@ public class AdminCompilationController {
     private final CompilationService compilationService;
 
     @PostMapping
-    public ResponseEntity<CompilationDtoResp> addCompilation(@RequestBody @Valid NewCompilationDto compilation) {
+    public ResponseEntity<CompilationDtoResponse> addCompilation(@RequestBody @Validated(Create.class)
+                                                                     CompilationDtoRequest compilation) {
         log.info("добавить компиляцию:{}", compilation);
         return ResponseEntity.status(HttpStatus.CREATED).body(compilationService.addCompilation(compilation));
     }
 
     @DeleteMapping("{compId}")
-    public ResponseEntity<Void> deleteCompilation(@PathVariable @Min(1) Long compId) {
+    public ResponseEntity<Void> deleteCompilation(@PathVariable @Positive Long compId) {
         log.info("удалить компиляцию с id={}", compId);
         compilationService.deleteCompilation(compId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PatchMapping("{compId}")
-    public ResponseEntity<CompilationDtoResp> updateCompilation(@PathVariable @Min(1) Long compId,
-                                                                @RequestBody UpdateCompilationRequest updateCompilation) {
+    public ResponseEntity<CompilationDtoResponse> updateCompilation(@PathVariable @Positive Long compId,
+                                                                @RequestBody @Validated(Update.class)
+                                                                CompilationDtoRequest updateCompilation) {
         log.info("обнавить компиляцию с id={} на компиляцию:{}", compId, updateCompilation);
         return ResponseEntity.status(HttpStatus.OK).body(compilationService.updateCompilation(compId, updateCompilation));
     }

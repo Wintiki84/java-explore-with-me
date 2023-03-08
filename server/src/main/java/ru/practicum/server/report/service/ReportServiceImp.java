@@ -8,6 +8,8 @@ import ru.practicum.server.report.dto.ReportDto;
 import ru.practicum.server.report.mapper.ReportMapper;
 import ru.practicum.server.report.repository.ReportRepository;
 
+import javax.validation.constraints.NotNull;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ReportServiceImp implements ReportService {
@@ -15,8 +17,9 @@ public class ReportServiceImp implements ReportService {
     private final ReportMapper mapper;
 
     @Override
-    public ReportDto getReportByUserId(Long userId) {
-            return mapper.mapToReportDto(reportRepository.findByReportedUserUserId(userId)
-                    .orElseThrow(() -> new NotFoundException("Report with reported user id=" + userId + " not found")));
+    @NotNull
+    public ReportDto getReportByUserId(@NotNull Long userId) {
+            return mapper.mapToReportDto(reportRepository.findByReportedUserId(userId)
+                    .orElseThrow(() -> new NotFoundException("Отчет с сообщенным id=" + userId + " не найден")));
     }
 }

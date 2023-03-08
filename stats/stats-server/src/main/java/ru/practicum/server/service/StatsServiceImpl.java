@@ -15,13 +15,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static ru.practicum.constants.constants.DATE_FORMAT;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class StatsServiceImpl implements StatsService {
     private final StatsRepository statsRepository;
     private final StatsMapper statsMapper;
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     @NotNull
     @Override

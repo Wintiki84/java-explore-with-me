@@ -8,6 +8,6 @@ import ru.practicum.server.report.model.Report;
 @Mapper(componentModel = "spring")
 public interface ReportMapper {
 
-    @Mapping(source = "reportedUser.userId", target = "reportedUser")
+    @Mapping(source = "reportedUser.id", target = "reportedUser")
     ReportDto mapToReportDto(Report report);
 }

@@ -1,28 +1,37 @@
 package ru.practicum.server.comment.service;
 
 import ru.practicum.server.comment.dto.CommentDtoList;
-import ru.practicum.server.comment.dto.CommentDtoResponse;
-import ru.practicum.server.comment.dto.CommentDtoUpdate;
-import ru.practicum.server.comment.dto.NewCommentDto;
+import ru.practicum.server.comment.dto.CommentDto;
+
+import javax.validation.constraints.NotNull;
 
 public interface CommentService {
-    CommentDtoResponse addComment(Long userId, Long eventId, NewCommentDto newComment);
+    @NotNull
+    CommentDto addComment(@NotNull Long userId, @NotNull Long eventId, @NotNull CommentDto newComment);
 
-    CommentDtoResponse updateCommentUser(Long userId, Long commentId, CommentDtoUpdate updateComment);
+    @NotNull
+    CommentDto updateCommentUser(@NotNull Long userId, @NotNull Long commentId,
+                                         @NotNull CommentDto updateComment);
 
-    void deleteCommentUser(Long commentId, Long userId);
+    void deleteCommentUser(@NotNull Long commentId, @NotNull Long userId);
 
-    void reportComment(Long commentId, Long userId);
+    void reportComment(@NotNull Long commentId, @NotNull Long userId);
 
-    void deleteCommentAdmin(Long commentId, Long userId);
+    void deleteCommentAdmin(@NotNull Long commentId, @NotNull Long userId);
 
-    CommentDtoResponse updateCommentAdmin(Long userId, Long commentId, CommentDtoUpdate updateComment);
+    @NotNull
+    CommentDto updateCommentAdmin(@NotNull Long userId, @NotNull Long commentId,
+                                          @NotNull CommentDto updateComment);
 
-    CommentDtoResponse getCommentPrivate(Long userId, Long commentId);
+    @NotNull
+    CommentDto getCommentPrivate(@NotNull Long userId, @NotNull Long commentId);
 
-    CommentDtoList getCommentsPrivate(Long userId, Long eventId);
+    @NotNull
+    CommentDtoList getCommentsPrivate(@NotNull Long userId, @NotNull Long eventId);
 
-    CommentDtoList getCommentsPublic(Long eventId);
+    @NotNull
+    CommentDtoList getCommentsPublic(@NotNull Long eventId);
 
-    CommentDtoResponse getCommentPublic(Long commentId);
+    @NotNull
+    CommentDto getCommentPublic(@NotNull Long commentId);
 }
