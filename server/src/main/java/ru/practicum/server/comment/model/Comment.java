@@ -2,14 +2,12 @@ package ru.practicum.server.comment.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.Hibernate;
 import ru.practicum.server.comment.enums.CommentState;
 import ru.practicum.server.event.model.Event;
 import ru.practicum.server.user.model.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Getter
 @Setter

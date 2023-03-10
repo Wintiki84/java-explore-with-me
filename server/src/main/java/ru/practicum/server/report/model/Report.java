@@ -2,11 +2,9 @@ package ru.practicum.server.report.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.Hibernate;
 import ru.practicum.server.user.model.User;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Getter
 @Setter
