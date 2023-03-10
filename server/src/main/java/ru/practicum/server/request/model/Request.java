@@ -16,9 +16,10 @@ import java.time.LocalDateTime;
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "request_id")
-    private Long requestId;
-    @Column
+    @Column(nullable = false)
+    private Long id;
+
+    @Column(nullable = false)
     private LocalDateTime created = LocalDateTime.now();
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
@@ -27,5 +28,6 @@ public class Request {
     @JoinColumn(name = "requester_id", nullable = false)
     private User requester;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private RequestStatus status = RequestStatus.PENDING;
 }

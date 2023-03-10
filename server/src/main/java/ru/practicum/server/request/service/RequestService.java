@@ -3,10 +3,15 @@ package ru.practicum.server.request.service;
 import ru.practicum.server.request.dto.RequestDto;
 import ru.practicum.server.request.dto.RequestListDto;
 
+import javax.validation.constraints.NotNull;
+
 public interface RequestService {
-    RequestDto createRequest(Long userId, Long eventId);
+    @NotNull
+    RequestDto createRequest(@NotNull Long userId, @NotNull Long eventId);
 
-    RequestListDto getUserRequests(Long userId);
+    @NotNull
+    RequestListDto getUserRequests(@NotNull Long userId);
 
-    RequestDto canceledRequest(Long userId, Long eventId);
+    @NotNull
+    RequestDto canceledRequest(@NotNull Long userId, @NotNull Long eventId);
 }

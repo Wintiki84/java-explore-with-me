@@ -2,18 +2,23 @@ package ru.practicum.server.compilation.service;
 
 import org.springframework.data.domain.Pageable;
 import ru.practicum.server.compilation.dto.CompilationDtoList;
-import ru.practicum.server.compilation.dto.CompilationDtoResp;
-import ru.practicum.server.compilation.dto.NewCompilationDto;
-import ru.practicum.server.compilation.dto.UpdateCompilationRequest;
+import ru.practicum.server.compilation.dto.CompilationDtoRequest;
+import ru.practicum.server.compilation.dto.CompilationDtoResponse;
+
+import javax.validation.constraints.NotNull;
 
 public interface CompilationService {
-    CompilationDtoResp addCompilation(NewCompilationDto compilationDto);
+    @NotNull
+    CompilationDtoResponse addCompilation(@NotNull CompilationDtoRequest compilationDto);
 
-    void deleteCompilation(Long compId);
+    void deleteCompilation(@NotNull Long compId);
 
-    CompilationDtoResp updateCompilation(Long compId, UpdateCompilationRequest updateCompilation);
+    @NotNull
+    CompilationDtoResponse updateCompilation(@NotNull Long compId, @NotNull CompilationDtoRequest updateCompilation);
 
-    CompilationDtoResp getCompilation(Long compId);
+    @NotNull
+    CompilationDtoResponse getCompilation(@NotNull Long compId);
 
+    @NotNull
     CompilationDtoList getCompilations(Boolean pinned, Pageable pageable);
 }

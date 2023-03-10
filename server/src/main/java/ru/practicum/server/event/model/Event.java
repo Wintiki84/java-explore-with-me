@@ -3,6 +3,7 @@ package ru.practicum.server.event.model;
 import lombok.Getter;
 import lombok.Setter;
 import ru.practicum.server.category.model.Category;
+import ru.practicum.server.comment.model.Comment;
 import ru.practicum.server.compilation.model.Compilation;
 import ru.practicum.server.event.enums.State;
 import ru.practicum.server.event.location.Location;
@@ -20,12 +21,12 @@ import java.util.Set;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_id")
-    private Long eventId;
+    @Column(nullable = false)
+    private Long id;
     @Column(nullable = false, length = 2000)
     private String annotation;
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
     @Column(nullable = false, length = 7000)
     private String description;
@@ -33,30 +34,31 @@ public class Event {
     private LocalDateTime eventDate;
     @Embedded
     private Location location;
-    @Column
+    @Column(nullable = false)
     private Boolean paid = Boolean.FALSE;
-    @Column(name = "participant_limit")
+    @Column(name = "participant_limit", nullable = false)
     private Integer participantLimit = 0;
-    @Column(name = "request_moderation")
+    @Column(name = "request_moderation", nullable = false)
     private Boolean requestModeration = Boolean.TRUE;
     @Column(nullable = false, length = 120)
     private String title;
-    @Column(name = "confirmed_requests")
+    @Column(name = "confirmed_requests", nullable = false)
     private Integer confirmedRequests = 0;
     @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
     @ManyToOne
-    @JoinColumn(name = "initiator")
+    @JoinColumn(name = "initiator", nullable = false)
     private User initiator;
-    @Column(name = "published_on")
+    @Column(name = "published_on", nullable = false)
     private LocalDateTime publishedOn;
     @Enumerated(EnumType.STRING)
     private State state = State.PENDING;
-    @Column
+    @Column(nullable = false)
     private Long views = 0L;
     @OneToMany(mappedBy = "event")
     private Set<Request> requests;
     @ManyToMany(mappedBy = "events")
     private Set<Compilation> compilations;
-
+    @OneToMany(mappedBy = "event")
+    private Set<Comment> comments;
 }

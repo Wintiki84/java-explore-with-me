@@ -7,30 +7,43 @@ import ru.practicum.server.request.dto.EventRequestStatusUpdateResult;
 import ru.practicum.server.request.dto.RequestListDto;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventService {
-    EventDto addNewEvent(Long userId, NewEventDto eventDto);
+    @NotNull
+    EventDtoResponse addEvent(@NotNull Long userId, @NotNull EventDtoRequest eventDto);
 
-    ListEventShortDto getPrivateUserEvents(Long userId, Pageable pageable);
+    @NotNull
+    ListEventShortDto getPrivateUserEvents(@NotNull Long userId, @NotNull Pageable pageable);
 
-    EventDto getPrivateUserEvent(Long userId, Long eventId);
+    @NotNull
+    EventDtoResponse getPrivateUserEvent(@NotNull Long userId, @NotNull Long eventId);
 
-    EventDto updateEventUser(Long userId, Long eventId, UpdateEventUserRequest updateEvent);
+    @NotNull
+    EventDtoResponse updateEventUser(@NotNull Long userId, @NotNull Long eventId, @NotNull EventDtoRequest updateEvent);
 
-    ListEventDto getEventsByFiltersForAdmin(List<Long> ids, List<String> states, List<Long> categories,
-                                                LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
+    @NotNull
+    ListEventDtoResponse getEventsByFiltersForAdmin(List<Long> ids, List<String> states, List<Long> categories,
+                                                LocalDateTime rangeStart, LocalDateTime rangeEnd,
+                                            @NotNull Pageable pageable);
 
-    EventDto updateEventAdmin(Long eventId, UpdateEventAdminRequest updateEvent);
+    @NotNull
+    EventDtoResponse updateEventAdmin(@NotNull Long eventId, @NotNull EventDtoRequest updateEvent);
 
-    RequestListDto getUserEventRequests(Long userId, Long eventId);
+    @NotNull
+    RequestListDto getUserEventRequests(@NotNull Long userId, @NotNull Long eventId);
 
-    EventRequestStatusUpdateResult approveRequests(Long userId, Long eventId, EventRequestStatusUpdate requests);
+    @NotNull
+    EventRequestStatusUpdateResult approveRequests(@NotNull Long userId, @NotNull Long eventId,
+                                                   @NotNull EventRequestStatusUpdate requests);
 
-    EventDto getEventByIdPublic(Long eventId, HttpServletRequest servlet);
+    @NotNull
+    EventDtoResponse getEventByIdPublic(@NotNull Long eventId, @NotNull HttpServletRequest servlet);
 
+    @NotNull
     ListEventShortDto getEventsByFiltersPublic(String text, List<Long> categories, Boolean paid,
                                                LocalDateTime rangeStart, LocalDateTime rangeEnd, Boolean onlyAvailable,
-                                               Pageable pageable, HttpServletRequest servlet);
+                                               @NotNull Pageable pageable, @NotNull HttpServletRequest servlet);
 }
