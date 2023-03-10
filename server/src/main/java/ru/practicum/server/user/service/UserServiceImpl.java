@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private final UserRepository usersRepository;
     private final UserMapper mapper;
@@ -37,7 +38,6 @@ public class UserServiceImpl implements UserService {
 
     @NotNull
     @Override
-    @Transactional(readOnly = true)
     public UserListDto getUsers(List<Long> ids, Pageable pageable) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         if (ids != null && !ids.isEmpty()) {

@@ -22,17 +22,4 @@ public class User {
     private String email;
     @Column(name = "comments_are_prohibited", nullable = false)
     private Boolean commentsAreProhibited = Boolean.FALSE;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

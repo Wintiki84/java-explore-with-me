@@ -44,6 +44,7 @@ import static ru.practicum.constants.Constants.DATE_FORMAT;
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Transactional(readOnly = true)
 public class EventServiceImp implements EventService {
     private final EventRepository events;
     private final UserRepository users;
@@ -69,7 +70,6 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     @NotNull
     public ListEventShortDto getPrivateUserEvents(@NotNull Long userId, @NotNull Pageable pageable) {
         findByUserId(userId);
@@ -80,7 +80,6 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     @NotNull
     public EventDtoResponse getPrivateUserEvent(@NotNull Long userId, @NotNull Long eventId) {
         findByUserId(userId);
@@ -110,7 +109,6 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     @NotNull
     public ListEventDtoResponse getEventsByFiltersForAdmin(List<Long> ids, List<String> states,
                                                    List<Long> categories, LocalDateTime rangeStart,
@@ -147,7 +145,6 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     @NotNull
     public RequestListDto getUserEventRequests(@NotNull Long userId, @NotNull Long eventId) {
         findByUserId(userId);
@@ -190,7 +187,6 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     @NotNull
     public ListEventShortDto getEventsByFiltersPublic(String text, List<Long> categories,
                                                       Boolean paid,

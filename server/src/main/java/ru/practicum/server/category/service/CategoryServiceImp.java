@@ -14,6 +14,7 @@ import ru.practicum.server.handler.exception.NotFoundException;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Transactional(readOnly = true)
 public class CategoryServiceImp implements CategoryService {
     private final CategoryRepository categories;
     private final CategoryMapper mapper;
@@ -39,7 +40,6 @@ public class CategoryServiceImp implements CategoryService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public ListCategoryDto getCategories(Pageable pageable) {
         return ListCategoryDto
                 .builder()
@@ -48,7 +48,6 @@ public class CategoryServiceImp implements CategoryService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public CategoryDto getCategoryById(Long categoryId) {
         return mapper.mapToCategoryDto(findByCategoryId(categoryId));
     }

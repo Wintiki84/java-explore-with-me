@@ -23,6 +23,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Transactional(readOnly = true)
 public class CompilationServiceImp implements CompilationService {
     private final CompilationRepository compilations;
     private final CompilationMapper mapper;
@@ -59,14 +60,12 @@ public class CompilationServiceImp implements CompilationService {
 
     @NotNull
     @Override
-    @Transactional(readOnly = true)
     public CompilationDtoResponse getCompilation(@NotNull Long compId) {
         return mapper.mapToCompilationDtoResponse(findByCompilationId(compId));
     }
 
     @NotNull
     @Override
-    @Transactional(readOnly = true)
     public CompilationDtoList getCompilations(Boolean pinned, Pageable pageable) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         Page<Compilation> page;

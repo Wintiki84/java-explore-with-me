@@ -15,13 +15,12 @@ public class ReportDto {
     @JsonView(AdminDetails.class)
     @NotNull(message = "Не должно быть null")
     @Positive(message = "Должно быть больше нуля")
-    Long id;
+    private Long id;
     @JsonView(AdminDetails.class)
     @NotNull(message = "Не должно быть null")
     @Positive(message = "Должно быть больше нуля")
-    Long reportedUser;
+    private Long reportedUser;
     @JsonView(AdminDetails.class)
-    @NotNull(message = "Не должно быть null")
     @NotBlank(message = "Не должно быть пустым")
-    String reportedMessage;
+    private String reportedMessage;
 }

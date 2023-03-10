@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Transactional(readOnly = true)
 public class RequestServiceImp implements RequestService {
     private final RequestRepository requests;
     private final UserRepository users;
@@ -51,7 +52,6 @@ public class RequestServiceImp implements RequestService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     @NotNull
     public RequestListDto getUserRequests(@NotNull Long userId) {
         findByUserId(userId);

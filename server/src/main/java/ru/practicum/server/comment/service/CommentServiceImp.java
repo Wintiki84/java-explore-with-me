@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Transactional(readOnly = true)
 public class CommentServiceImp implements CommentService {
     private final CommentRepository commentRepository;
     private final CommentMapper mapper;
@@ -109,7 +110,6 @@ public class CommentServiceImp implements CommentService {
 
     @Override
     @NotNull
-    @Transactional(readOnly = true)
     public CommentDto getCommentPrivate(@NotNull Long userId, @NotNull Long commentId) {
         Comment comment = findByCommentIdAndAuthorId(commentId, userId);
         return mapper.mapToCommentDto(comment);
@@ -117,7 +117,6 @@ public class CommentServiceImp implements CommentService {
 
     @Override
     @NotNull
-    @Transactional(readOnly = true)
     public CommentDtoList getCommentsPrivate(@NotNull Long userId, @NotNull Long eventId) {
         return CommentDtoList
                 .builder()
@@ -128,7 +127,6 @@ public class CommentServiceImp implements CommentService {
 
     @Override
     @NotNull
-    @Transactional(readOnly = true)
     public CommentDtoList getCommentsPublic(@NotNull Long eventId) {
         return CommentDtoList
                 .builder()
@@ -139,7 +137,6 @@ public class CommentServiceImp implements CommentService {
 
     @Override
     @NotNull
-    @Transactional(readOnly = true)
     public CommentDto getCommentPublic(@NotNull Long commentId) {
         return mapper.mapToCommentDto(findByCommentId(commentId));
     }
