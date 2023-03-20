@@ -10,6 +10,6 @@ public enum EventSort {
         if (string != null && string.equals(VIEWS.toString())) {
             return "views";
         }
-        return "eventId";
+        return "id";
     }
 }

@@ -8,12 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.server.category.dto.CategoryDto;
 import ru.practicum.server.category.dto.ListCategoryDto;
 import ru.practicum.server.category.mapper.CategoryMapper;
+import ru.practicum.server.category.model.Category;
 import ru.practicum.server.category.repository.CategoryRepository;
 import ru.practicum.server.handler.exception.NotFoundException;
 
-
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Transactional(readOnly = true)
 public class CategoryServiceImp implements CategoryService {
     private final CategoryRepository categories;
     private final CategoryMapper mapper;
@@ -26,27 +27,19 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     @Transactional
-    public CategoryDto updateCategory(CategoryDto updateCategory, Long catId) {
-        if (categories.existsById(catId)) {
-            return mapper.mapToCategoryDto(categories.save(mapper.mapToCategory(updateCategory)));
-        } else {
-            throw new NotFoundException("Категория с id=" + catId + " не найдена");
-        }
+    public CategoryDto updateCategory(CategoryDto updateCategory, Long categoryId) {
+        findByCategoryId(categoryId);
+        return mapper.mapToCategoryDto(categories.save(mapper.mapToCategory(updateCategory)));
     }
 
     @Override
     @Transactional
-    public void deleteCategory(Long catId) {
-        if (!categories.existsById(catId)) {
-            throw new NotFoundException("Категория с id=" + catId + " не найдена");
-        } else {
-            //TODO связь с событием
-            categories.deleteById(catId);
-        }
+    public void deleteCategory(Long categoryId) {
+        findByCategoryId(categoryId);
+        categories.deleteById(categoryId);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public ListCategoryDto getCategories(Pageable pageable) {
         return ListCategoryDto
                 .builder()
@@ -55,9 +48,12 @@ public class CategoryServiceImp implements CategoryService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public CategoryDto getCategoryById(Long catId) {
-        return mapper.mapToCategoryDto(categories.findById(catId)
-                .orElseThrow(() -> new NotFoundException("Категория с id=" + catId + " не найдена")));
+    public CategoryDto getCategoryById(Long categoryId) {
+        return mapper.mapToCategoryDto(findByCategoryId(categoryId));
+    }
+
+    private Category findByCategoryId(Long categoryId) {
+        return categories.findById(categoryId).orElseThrow(
+                () -> new NotFoundException("Категория с id=" + categoryId + " не найдена"));
     }
 }

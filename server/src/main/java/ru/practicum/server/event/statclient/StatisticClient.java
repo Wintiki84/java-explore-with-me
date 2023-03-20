@@ -19,10 +19,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
+import static ru.practicum.constants.Constants.DATE_FORMAT;
+
 @Slf4j
 @Service
 public class StatisticClient extends BaseClient {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     @Autowired
     public StatisticClient(@Value("${STAT-SERVER-URL}") String serverUrl, RestTemplateBuilder builder) {
