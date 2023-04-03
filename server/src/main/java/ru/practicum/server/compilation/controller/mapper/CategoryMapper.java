@@ -1,4 +1,4 @@
-package ru.practicum.server.category.mapper;
+package ru.practicum.server.compilation.controller.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -8,7 +8,7 @@ import ru.practicum.server.category.dto.ListCategoryDto;
 import ru.practicum.server.category.dto.NewCategoryDto;
 import ru.practicum.server.category.dto.NewCategoryDtoResp;
 import ru.practicum.server.category.dto.UpdateCategoryDto;
-import ru.practicum.server.category.mapper.CategoryMapper;
+import ru.practicum.server.compilation.controller.mapper.CategoryMapper;
 import ru.practicum.server.category.repository.CategoryRepository;
 import ru.practicum.server.handler.exception.NotFoundException;
 

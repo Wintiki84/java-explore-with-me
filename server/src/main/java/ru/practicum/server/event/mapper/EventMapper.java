@@ -1,7 +1,7 @@
 package ru.practicum.server.event.mapper;
 
 import org.mapstruct.*;
-import ru.practicum.server.category.mapper.CategoryMapper;
+import ru.practicum.server.compilation.controller.mapper.CategoryMapper;
 import ru.practicum.server.event.dto.*;
 import ru.practicum.server.event.enums.State;
 import ru.practicum.server.event.model.Event;

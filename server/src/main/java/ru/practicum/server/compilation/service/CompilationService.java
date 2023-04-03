@@ -6,8 +6,11 @@ import ru.practicum.server.compilation.dto.CompilationDtoResp;
 import ru.practicum.server.compilation.dto.NewCompilationDto;
 import ru.practicum.server.compilation.dto.UpdateCompilationRequest;
 
+import javax.validation.constraints.NotNull;
+
 public interface CompilationService {
-    CompilationDtoResp addCompilation(NewCompilationDto compilationDto);
+    @NotNull
+    CompilationDtoResp addCompilation(@NotNull NewCompilationDto compilationDto);
 
     void deleteCompilation(Long compId);
 

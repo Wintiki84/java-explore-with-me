@@ -1,0 +1,500 @@
+databaseChangeLog:
+- changeSet:
+    id: 1679514565574-1
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+                tableName: cheque
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: cheque_pkey
+            name: id
+            type: BIGINT
+            startWith: 15
+        - column:
+            name: date
+            type: date
+        - column:
+            name: final_price
+            type: FLOAT8
+        - column:
+            name: number
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: client_id
+            type: BIGINT
+        tableName: cheque
+- changeSet:
+    id: 1679512368677-16
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            rowCount:
+                expectedRows: 14
+                tableName: cheque
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: id
+            name: id
+            type: NUMERIC
+        - column:
+            header: number
+            name: number
+            type: NUMERIC
+        - column:
+            header: date
+            name: date
+            type: DATE
+        - column:
+            header: final_price
+            name: final_price
+            type: NUMERIC
+        - column:
+            header: client_id
+            name: client_id
+            type: NUMERIC
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        relativeToChangelogFile: true
+        file: data/cheque.csv
+        quotchar: '"'
+        separator: ','
+        tableName: cheque
+- changeSet:
+    id: 1679514565575-2
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+                tableName: client
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: client_pkey
+            name: id
+            type: BIGINT
+            startWith: 3
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: discount1
+            type: INTEGER
+        - column:
+            name: discount2
+            type: INTEGER
+        tableName: client
+- changeSet:
+    id: 1679512368679-2
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            rowCount:
+                expectedRows: 2
+                tableName: client
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: id
+            name: id
+            type: NUMERIC
+        - column:
+            header: name
+            name: name
+            type: STRING
+        - column:
+            header: discount1
+            name: discount1
+            type: NUMERIC
+        - column:
+            header: discount2
+            name: discount2
+            type: NUMERIC
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        relativeToChangelogFile: true
+        file: data/client.csv
+        quotchar: '"'
+        separator: ','
+        tableName: client
+- changeSet:
+    id: 1679514565574-3
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+                tableName: product_for_cheque
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: product_for_cheque_pkey
+            name: id
+            type: BIGINT
+            startWith: 23
+        - column:
+            name: amount_product
+            type: INTEGER
+        - column:
+            name: sum_discount
+            type: INTEGER
+        - column:
+            name: product_id
+            type: BIGINT
+        - column:
+            name: cheque_id
+            type: BIGINT
+        tableName: product_for_cheque
+- changeSet:
+    id: 1679512368677-4
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            rowCount:
+                expectedRows: 16
+                tableName: product_for_cheque
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: id
+            name: id
+            type: NUMERIC
+        - column:
+            header: amount_product
+            name: amount_product
+            type: NUMERIC
+        - column:
+            header: sum_discount
+            name: sum_discount
+            type: NUMERIC
+        - column:
+            header: product_id
+            name: product_id
+            type: NUMERIC
+        - column:
+            header: cheque_number
+            name: cheque_number
+            type: NUMERIC
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        relativeToChangelogFile: true
+        file: data/product_for_cheque.csv
+        quotchar: '"'
+        separator: ','
+        tableName: product_for_cheque
+- changeSet:
+    id: 1679514565575-4
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+                tableName: product
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: product_pkey
+            name: id
+            type: BIGINT
+            startWith: 3
+        - column:
+            name: description
+            type: VARCHAR(255)
+        - column:
+            name: discount
+            type: INTEGER
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: price
+            type: FLOAT8
+        tableName: product
+- changeSet:
+    id: 1679512368677-6
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            rowCount:
+                expectedRows: 4
+                tableName: product
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: id
+            name: id
+            type: NUMERIC
+        - column:
+            header: description
+            name: description
+            type: STRING
+        - column:
+            header: discount
+            name: discount
+            type: NUMERIC
+        - column:
+            header: name
+            name: name
+            type: STRING
+        - column:
+            header: price
+            name: price
+            type: NUMERIC
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        relativeToChangelogFile: true
+        file: data/product.csv
+        quotchar: '"'
+        separator: ','
+        tableName: product
+- changeSet:
+    id: 1679514565574-5
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+                tableName: rating
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: rating_pkey
+            name: id
+            type: BIGINT
+            startWith: 3
+        - column:
+            constraints:
+              nullable: false
+              unique: true
+              uniqueConstraintName: client_id-product_id_unique
+            name: client_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+              unique: true
+              uniqueConstraintName: client_id-product_id_unique
+            name: product_id
+            type: BIGINT
+        tableName: rating
+- changeSet:
+    id: 1679512368677-8
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            rowCount:
+                expectedRows: 2
+                tableName: rating
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: id
+            name: id
+            type: NUMERIC
+        - column:
+            header: client_id
+            name: client_id
+            type: NUMERIC
+        - column:
+            header: product_id
+            name: product_id
+            type: NUMERIC
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        relativeToChangelogFile: true
+        file: data/rating.csv
+        quotchar: '"'
+        separator: ','
+        tableName: rating
+- changeSet:
+    id: 1679514565574-6
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            uniqueConstraintExists:
+                tableName: product_for_cheque
+                constraintName: uksjjpyh2611o1ra06b3c5rw8rl
+    changes:
+    - addUniqueConstraint:
+        columnNames: product_id, cheque_id
+        constraintName: uksjjpyh2611o1ra06b3c5rw8rl
+        tableName: product_for_cheque
+- changeSet:
+    id: 1679514565576-7
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            uniqueConstraintExists:
+                constraintName: uk4axbl3xlb965aikvenlqn1ft8
+                tableName: rating
+    changes:
+    - addUniqueConstraint:
+        columnNames: product_id, client_id
+        constraintName: uk4axbl3xlb965aikvenlqn1ft8
+        tableName: rating
+- changeSet:
+    id: 1679514565574-8
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            sequenceExists:
+                sequenceName: ktetest_seq
+    changes:
+    - createSequence:
+        cacheSize: 1
+        cycle: false
+        dataType: bigint
+        incrementBy: 1
+        maxValue: 9223372036854775807
+        minValue: 100
+        sequenceName: ktetest_seq
+        startValue: 120
+- changeSet:
+    id: 1679514565575-11
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            foreignKeyConstraintExists:
+                foreignKeyName: fk11imew2oqanw7ntvm0yugqbyr
+                foreignKeyTableName: rating
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: product_id
+        baseTableName: rating
+        constraintName: fk11imew2oqanw7ntvm0yugqbyr
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: product
+        validate: true
+- changeSet:
+    id: 1679514565576-12
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            foreignKeyConstraintExists:
+                foreignKeyName: fkah52doucxxbj36upfm4tapi2
+                foreignKeyTableName: rating
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: client_id
+        baseTableName: rating
+        constraintName: fkah52doucxxbj36upfm4tapi2
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: client
+- changeSet:
+    id: 1679514565575-13
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            foreignKeyConstraintExists:
+                foreignKeyName: fkkv0qs2i53n3lpwpvb83q5i5lv
+                foreignKeyTableName: product_for_cheque
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: product_id
+        baseTableName: product_for_cheque
+        constraintName: fkkv0qs2i53n3lpwpvb83q5i5lv
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: product
+        validate: true
+- changeSet:
+    id: 1679514565574-14
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            foreignKeyConstraintExists:
+                foreignKeyName: fkthjxrf8qtikgj3qe1kcw3hcee
+                foreignKeyTableName: product_for_cheque
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: cheque_id
+        baseTableName: product_for_cheque
+        constraintName: fkthjxrf8qtikgj3qe1kcw3hcee
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: cheque
+        validate: true
+- changeSet:
+    id: 1679514565575-15
+    author: wint (generated)
+    preConditions:
+        - onFail: MARK_RAN
+        - not:
+            foreignKeyConstraintExists:
+                foreignKeyName: fktpl3o1464c1jd6t12rinbjme6
+                foreignKeyTableName: cheque
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: client_id
+        baseTableName: cheque
+        constraintName: fktpl3o1464c1jd6t12rinbjme6
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: client
+        validate: true
