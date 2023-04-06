@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="f5cafbcd-df0c-40c3-b4fd-56f927a67dbd" activeEnvironment="Default" name="SoapClientTest" resourceRoot="" soapui-version="5.7.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="e541ed85-61de-4b22-9bce-c0660b427645" wsaVersion="NONE" name="ClientServiceSoapBinding" type="wsdl" bindingName="{http://kte.test-web-service}ClientServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/services/ClientService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/services/ClientService?wsdl"><con:part><con:url>http://localhost:8080/services/ClientService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="ClientService" targetNamespace="http://kte.test-web-service" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://kte.test-web-service" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://kte.test-web-service" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="getAllClientRequest" type="tns:getAllClientRequest"/>
+      <xs:element name="getAllClientResponse" type="tns:getAllClientResponse"/>
+      <xs:element name="getClientStatisticRequest" type="tns:getClientStatisticRequest"/>
+      <xs:element name="getClientStatisticResponse" type="tns:getClientStatisticResponse"/>
+      <xs:element name="getUpdateDiscountRequest" type="tns:getUpdateDiscountRequest"/>
+      <xs:element name="getUpdateDiscountResponse" type="tns:getUpdateDiscountResponse"/>
+      <xs:complexType name="getClientStatisticRequest">
+        <xs:sequence>
+          <xs:element name="clientId" type="xs:long"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getClientStatisticResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ClientStatistic" type="tns:statisticClientResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="statisticClientResponse">
+        <xs:sequence>
+          <xs:element name="amountCheck" type="xs:int"/>
+          <xs:element minOccurs="0" name="client" type="tns:client"/>
+          <xs:element name="totalCheckDiscountSum" type="xs:int"/>
+          <xs:element name="totalCheckSum" type="xs:double"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="client">
+        <xs:sequence>
+          <xs:element name="id" type="xs:long"/>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element name="personalDiscount1" type="xs:int"/>
+          <xs:element name="personalDiscount2" type="xs:int"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getUpdateDiscountRequest">
+        <xs:sequence>
+          <xs:element name="clientId" type="xs:long"/>
+          <xs:element name="discount1" type="xs:int"/>
+          <xs:element name="discount2" type="xs:int"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getUpdateDiscountResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="UpdateDiscount" type="tns:client"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getAllClientRequest">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getAllClientResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="Client" type="tns:client"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getStatisticClient">
+    <wsdl:part element="tns:getClientStatisticRequest" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateDiscount">
+    <wsdl:part element="tns:getUpdateDiscountRequest" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatisticClientResponse">
+    <wsdl:part element="tns:getClientStatisticResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllClientResponse">
+    <wsdl:part element="tns:getAllClientResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateDiscountResponse">
+    <wsdl:part element="tns:getUpdateDiscountResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllClient">
+    <wsdl:part element="tns:getAllClientRequest" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ClientService">
+    <wsdl:operation name="getStatisticClient">
+      <wsdl:input message="tns:getStatisticClient" name="getStatisticClient"></wsdl:input>
+      <wsdl:output message="tns:getStatisticClientResponse" name="getStatisticClientResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateDiscount">
+      <wsdl:input message="tns:updateDiscount" name="updateDiscount"></wsdl:input>
+      <wsdl:output message="tns:updateDiscountResponse" name="updateDiscountResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllClient">
+      <wsdl:input message="tns:getAllClient" name="getAllClient"></wsdl:input>
+      <wsdl:output message="tns:getAllClientResponse" name="getAllClientResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ClientServiceSoapBinding" type="tns:ClientService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getStatisticClient">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStatisticClient">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatisticClientResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateDiscount">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateDiscount">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateDiscountResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllClient">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllClient">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllClientResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ClientService">
+    <wsdl:port binding="tns:ClientServiceSoapBinding" name="ClientWebServiceImplPort">
+      <soap:address location="http://localhost:8080/services/ClientService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/services/ClientService</con:endpoint></con:endpoints><con:operation id="dfe4eedd-ed95-47c3-bc36-39168599b89e" isOneWay="false" action="" name="getAllClient" bindingOperationName="getAllClient" type="Request-Response" outputName="getAllClientResponse" inputName="getAllClient" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="00b0ad6e-9da6-4c9e-a729-9e9a55762278" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/services/ClientService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:kte="http://kte.test-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <kte:getAllClientRequest/>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://kte.test-web-service/ClientService/getAllClient"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="3c6c8e14-5a3a-40ee-93f6-a26c0a898f9f" isOneWay="false" action="" name="getStatisticClient" bindingOperationName="getStatisticClient" type="Request-Response" outputName="getStatisticClientResponse" inputName="getStatisticClient" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="90ed11e7-7b6d-439d-bc8f-6990151f5a6a" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/services/ClientService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:kte="http://kte.test-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <kte:getClientStatisticRequest>\r
+         <clientId>2</clientId>\r
+      </kte:getClientStatisticRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://kte.test-web-service/ClientService/getStatisticClient"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="28f87484-b318-409c-88b3-0bd73254db13" isOneWay="false" action="" name="updateDiscount" bindingOperationName="updateDiscount" type="Request-Response" outputName="updateDiscountResponse" inputName="updateDiscount" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="0865da15-ff6b-4000-aadc-75e186dd5afb" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/services/ClientService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:kte="http://kte.test-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <kte:getUpdateDiscountRequest>\r
+         <clientId>1</clientId>\r
+         <discount1>0</discount1>\r
+         <discount2>12</discount2>\r
+      </kte:getUpdateDiscountRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://kte.test-web-service/ClientService/updateDiscount"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="c807d0b0-ecc6-4cdc-94b2-424ab32cbd53" name="getAllClient"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="c440e878-4a35-4ca2-a8cd-c1adf4b48fe4" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true"><con:settings/><con:testStep type="request" id="174e4f81-5ecf-43c6-b951-6de9af7c899a" name="getAllClient - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ClientServiceSoapBinding</con:interface><con:operation>getAllClient</con:operation><con:request name="getAllClient - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="c199efdd-c933-4b3d-9f6b-2f1f32ef7dec"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/services/ClientService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:kte="http://kte.test-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <kte:getAllClientRequest/>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="Simple Contains" id="a2d8a1e6-0df0-4cbc-aa00-ddde5b152286" name="Contains"><con:configuration><token><![CDATA[<Client>
+            <id>2</id>
+            <name>Rijiy</name>
+            <personalDiscount1>6</personalDiscount1>
+            <personalDiscount2>19</personalDiscount2>
+         </Client>
+         <Client>
+            <id>1</id>
+            <name>Zosya</name>
+            <personalDiscount1>12</personalDiscount1>
+            <personalDiscount2>8</personalDiscount2>
+         </Client>
+]]></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://kte.test-web-service/ClientService/getAllClient"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script" id="23a9f842-91d4-4cf0-a75a-fdebf816642e"><con:settings/><con:config><script>try {
+
+// 1. Create a "SoapUIResults" folder in the project path 
+      // Retrieve the project root folder
+      def projectPath = new com.eviware.soapui.support.GroovyUtils(context).projectPath
+
+      // Specify a folder inside project root to store the results
+      String folderPath = projectPath + "/SoapUIResults";
+
+      // Create a File object for the specified path
+      def resultFolder = new File(folderPath);
+
+      // Check for existence of folder and create a folder
+      if(!resultFolder.exists())
+      {
+        resultFolder.mkdirs();
+      }
+
+/* ------------------------------------------------------------------------------- */
+
+// 2. Create a subfolder (with timestamp) to store the request-response local copy 
+      // Retrieve the latest execution date-time
+      Date d = new Date();
+      def executionDate = d.format("dd-MMM-yyyy HH_mm");
+
+      // Specify the subfolder path with name Request-Response_CurrentTimeStamp
+      String subfolderPath1 = folderPath+ "/Request-Response_"+executionDate;
+
+      // Create this sub-folder
+      new File(subfolderPath1).mkdirs();
+
+/* ------------------------------------------------------------------------------- */
+
+// 3. Create another subfolder "CSV Reports" to store the reports file 
+      // Specify the subfolder path with name CSV Reports
+      String subfolderPath2 = folderPath+ "/CSV Reports";
+
+      // Create this sub-folder
+      new File(subfolderPath2).mkdirs();
+
+/* ------------------------------------------------------------------------------- */
+
+// 4. Create a Report.csv file inside the CSV Reports folder 
+      // Create a File object for Report csv file (with timestamp)
+      def reportFile = new File(subfolderPath2, "Report_"+executionDate+".csv");
+
+      // Check for existence of report file and create a file
+      if(!reportFile.exists())
+      {
+        reportFile.createNewFile();
+        // Create required column names in the report file
+        reportFile.write('"Test Suite","Test Case","Test Step","Step Type","Step Status",'
+                        +'"Result message","Execution Date"');
+      }
+/* ------------------------------------------------------------------------------- */
+// 5. Inserting data in the file
+      // Iterate over all the test steps results
+  for(stepResult in testRunner.getResults())
+  {
+    // Retrieve Test Suite name
+   def testSuite = testRunner.testCase.testSuite.name;
+   // Retrieve Test Case name
+   def testCase = testRunner.testCase.name;
+   // Retrieve Test Step
+   def testStep = stepResult.getTestStep();
+   // Retrieve Test Step name
+   def testStepName = testStep.name
+   // Retrieve Test Step type
+   def type = testStep.config.type
+   // Retrieve Test Step status
+   def status = stepResult.getStatus()
+
+   // Creating new line in report file
+   reportFile.append('\n');
+
+   // Write all the necessary information in the file
+   reportFile.append('"' + testSuite + '",');
+   reportFile.append('"' + testCase + '",');
+   reportFile.append('"' + testStepName + '",');
+   reportFile.append('"' + type + '",');
+   reportFile.append('"' + status + '",');
+
+   // Retrieve the test result messages
+   reportFile.append('"');
+   for(resMessage in stepResult.getMessages())
+   {
+     // Write messages and separate multiple messages by new line
+     reportFile.append('Message:' + resMessage + '\n');
+   }
+   reportFile.append('",');
+
+   //Write executionDate in the file
+   reportFile.append('"' + executionDate + '",');
+/* ------------------------------------------------------------------------------- */
+// 6. Extract the request and response and save it to external file
+      // Verify if the test step type is request: SOAP project or restrequest: REST project
+        if((type=="request").or(type=="restrequest"))
+        {
+          // Extract the request from the test step
+          def extRequest = testStep.properties["Request"].value;    
+
+      // Create a file in the reports folder and write the request
+      // Naming convention: request_TestSuiteName_TestCaseName_TestStepName.txt
+      def requestFile=subfolderPath1+"/request_"+testSuite+"_"+testCase+"_"+testStepName+".txt";
+      def rqfile = new File(requestFile);
+      rqfile.write(extRequest, "UTF-8");
+
+      // Extract the response from the test step
+      def extResponse = stepResult.getResponseContent();    
+
+      // Create a file in the reports folder and write the response
+      // Naming convention: response_TestSuiteName_TestCaseName_TestStepName.txt
+      def responseFile=subfolderPath1+"/response_"+testSuite+"_"+testCase+"_"+testStepName+".txt";
+      def rsfile = new File(responseFile);
+      rsfile.write(extResponse, "UTF-8");
+     }
+   }
+ }
+catch(exc)
+{
+   log.error("Exception happened: " + exc.toString());
+}</script></con:config></con:testStep><con:tearDownScript>// Code to execute the GenerateCSVReport test step
+testRunner.testCase.testSuite.project.testSuites["Library"].testCases["Reporting_Utility"].
+testSteps["GenerateCSVReport"].run(testRunner, context);</con:tearDownScript><con:properties/></con:testCase><con:properties/><con:tearDownScript>// Code to execute the GenerateCSVReport test step
+testRunner.testCase.testSuite.project.testSuites["Library"].testCases["Reporting_Utility"].
+testSteps["GenerateCSVReport"].run(testRunner, context);</con:tearDownScript></con:testSuite><con:testSuite id="a90b7a5d-cd7a-49c8-9462-0666625250db" name="statisticClient"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="c9845b89-cedf-4e4a-b518-9df646a937f7" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true"><con:settings/><con:testStep type="groovy" name="Groovy Script" id="250a4b3a-3e45-4201-a32a-380a58cd4e9e"><con:settings/><con:config><script>try {
+
+// 1. Create a "SoapUIResults" folder in the project path 
+      // Retrieve the project root folder
+      def projectPath = new com.eviware.soapui.support.GroovyUtils(context).projectPath
+
+      // Specify a folder inside project root to store the results
+      String folderPath = projectPath + "/SoapUIResults";
+
+      // Create a File object for the specified path
+      def resultFolder = new File(folderPath);
+
+      // Check for existence of folder and create a folder
+      if(!resultFolder.exists())
+      {
+        resultFolder.mkdirs();
+      }
+
+/* ------------------------------------------------------------------------------- */
+
+// 2. Create a subfolder (with timestamp) to store the request-response local copy 
+      // Retrieve the latest execution date-time
+      Date d = new Date();
+      def executionDate = d.format("dd-MMM-yyyy HH_mm");
+
+      // Specify the subfolder path with name Request-Response_CurrentTimeStamp
+      String subfolderPath1 = folderPath+ "/Request-Response_"+executionDate;
+
+      // Create this sub-folder
+      new File(subfolderPath1).mkdirs();
+
+/* ------------------------------------------------------------------------------- */
+
+// 3. Create another subfolder "CSV Reports" to store the reports file 
+      // Specify the subfolder path with name CSV Reports
+      String subfolderPath2 = folderPath+ "/CSV Reports";
+
+      // Create this sub-folder
+      new File(subfolderPath2).mkdirs();
+
+/* ------------------------------------------------------------------------------- */
+
+// 4. Create a Report.csv file inside the CSV Reports folder 
+      // Create a File object for Report csv file (with timestamp)
+      def reportFile = new File(subfolderPath2, "Report_"+executionDate+".csv");
+
+      // Check for existence of report file and create a file
+      if(!reportFile.exists())
+      {
+        reportFile.createNewFile();
+        // Create required column names in the report file
+        reportFile.write('"Test Suite","Test Case","Test Step","Step Type","Step Status",'
+                        +'"Result message","Execution Date"');
+      }
+/* ------------------------------------------------------------------------------- */
+// 5. Inserting data in the file
+      // Iterate over all the test steps results
+  for(stepResult in testRunner.getResults())
+  {
+    // Retrieve Test Suite name
+   def testSuite = testRunner.testCase.testSuite.name;
+   // Retrieve Test Case name
+   def testCase = testRunner.testCase.name;
+   // Retrieve Test Step
+   def testStep = stepResult.getTestStep();
+   // Retrieve Test Step name
+   def testStepName = testStep.name
+   // Retrieve Test Step type
+   def type = testStep.config.type
+   // Retrieve Test Step status
+   def status = stepResult.getStatus()
+
+   // Creating new line in report file
+   reportFile.append('\n');
+
+   // Write all the necessary information in the file
+   reportFile.append('"' + testSuite + '",');
+   reportFile.append('"' + testCase + '",');
+   reportFile.append('"' + testStepName + '",');
+   reportFile.append('"' + type + '",');
+   reportFile.append('"' + status + '",');
+
+   // Retrieve the test result messages
+   reportFile.append('"');
+   for(resMessage in stepResult.getMessages())
+   {
+     // Write messages and separate multiple messages by new line
+     reportFile.append('Message:' + resMessage + '\n');
+   }
+   reportFile.append('",');
+
+   //Write executionDate in the file
+   reportFile.append('"' + executionDate + '",');
+/* ------------------------------------------------------------------------------- */
+// 6. Extract the request and response and save it to external file
+      // Verify if the test step type is request: SOAP project or restrequest: REST project
+        if((type=="request").or(type=="restrequest"))
+        {
+          // Extract the request from the test step
+          def extRequest = testStep.properties["Request"].value;    
+
+      // Create a file in the reports folder and write the request
+      // Naming convention: request_TestSuiteName_TestCaseName_TestStepName.txt
+      def requestFile=subfolderPath1+"/request_"+testSuite+"_"+testCase+"_"+testStepName+".txt";
+      def rqfile = new File(requestFile);
+      rqfile.write(extRequest, "UTF-8");
+
+      // Extract the response from the test step
+      def extResponse = stepResult.getResponseContent();    
+
+      // Create a file in the reports folder and write the response
+      // Naming convention: response_TestSuiteName_TestCaseName_TestStepName.txt
+      def responseFile=subfolderPath1+"/response_"+testSuite+"_"+testCase+"_"+testStepName+".txt";
+      def rsfile = new File(responseFile);
+      rsfile.write(extResponse, "UTF-8");
+     }
+   }
+ }
+catch(exc)
+{
+   log.error("Exception happened: " + exc.toString());
+}</script></con:config></con:testStep><con:testStep type="request" id="8a72d331-fd13-4a57-aa41-7db4e6bed108" name="getStatisticClient - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ClientServiceSoapBinding</con:interface><con:operation>getStatisticClient</con:operation><con:request name="getStatisticClient - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="66b1aad8-825b-46cb-9823-5cff16740d0b"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/services/ClientService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:kte="http://kte.test-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <kte:getClientStatisticRequest>\r
+         <clientId>2</clientId>\r
+      </kte:getClientStatisticRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="Simple Contains" id="72aac498-c2ff-4189-9a6f-0f48e016cbb0" name="Contains"><con:configuration><token><![CDATA[ <ClientStatistic>
+            <amountCheck>13</amountCheck>
+            <client>
+               <id>2</id>
+               <name>Rijiy</name>
+               <personalDiscount1>6</personalDiscount1>
+               <personalDiscount2>19</personalDiscount2>
+            </client>
+            <totalCheckDiscountSum>90</totalCheckDiscountSum>
+            <totalCheckSum>18509.0</totalCheckSum>
+         </ClientStatistic>
+]]></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://kte.test-web-service/ClientService/getStatisticClient"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:tearDownScript>// Code to execute the GenerateCSVReport test step
+testRunner.testCase.testSuite.project.testSuites["Library"].testCases["Reporting_Utility"].
+testSteps["GenerateCSVReport"].run(testRunner, context);</con:tearDownScript><con:properties/></con:testCase><con:properties/><con:tearDownScript>// Code to execute the GenerateCSVReport test step
+testRunner.testCase.testSuite.project.testSuites["Library"].testCases["Reporting_Utility"].
+testSteps["GenerateCSVReport"].run(testRunner, context);</con:tearDownScript></con:testSuite><con:testSuite id="ae3b5f7f-d742-4a06-8cf4-9397f762af95" name="updateDicsount"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="b8b17682-283c-4ad1-99c8-8efff22b7867" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true"><con:settings/><con:testStep type="request" id="6fa2d13b-574b-4726-8653-dd3f0d8c3629" name="updateDiscount - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ClientServiceSoapBinding</con:interface><con:operation>updateDiscount</con:operation><con:request name="updateDiscount - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="f9f3fb16-5253-459e-a4cd-e521c0f3aeee"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/services/ClientService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:kte="http://kte.test-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <kte:getUpdateDiscountRequest>\r
+         <clientId>1</clientId>\r
+         <discount1>0</discount1>\r
+         <discount2>8</discount2>\r
+      </kte:getUpdateDiscountRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="Simple Contains" id="b4ac8a12-71dc-43e7-abe2-4782d1c6f85f" name="Contains"><con:configuration><token><![CDATA[<UpdateDiscount>
+            <id>1</id>
+            <name>Zosya</name>
+            <personalDiscount1>0</personalDiscount1>
+            <personalDiscount2>8</personalDiscount2>
+         </UpdateDiscount>
+]]></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://kte.test-web-service/ClientService/updateDiscount"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script" id="60084935-30d3-4ee9-80f0-9c017cb36b04"><con:settings/><con:config><script>try {
+
+// 1. Create a "SoapUIResults" folder in the project path 
+      // Retrieve the project root folder
+      def projectPath = new com.eviware.soapui.support.GroovyUtils(context).projectPath
+
+      // Specify a folder inside project root to store the results
+      String folderPath = projectPath + "/SoapUIResults";
+
+      // Create a File object for the specified path
+      def resultFolder = new File(folderPath);
+
+      // Check for existence of folder and create a folder
+      if(!resultFolder.exists())
+      {
+        resultFolder.mkdirs();
+      }
+
+/* ------------------------------------------------------------------------------- */
+
+// 2. Create a subfolder (with timestamp) to store the request-response local copy 
+      // Retrieve the latest execution date-time
+      Date d = new Date();
+      def executionDate = d.format("dd-MMM-yyyy HH_mm");
+
+      // Specify the subfolder path with name Request-Response_CurrentTimeStamp
+      String subfolderPath1 = folderPath+ "/Request-Response_"+executionDate;
+
+      // Create this sub-folder
+      new File(subfolderPath1).mkdirs();
+
+/* ------------------------------------------------------------------------------- */
+
+// 3. Create another subfolder "CSV Reports" to store the reports file 
+      // Specify the subfolder path with name CSV Reports
+      String subfolderPath2 = folderPath+ "/CSV Reports";
+
+      // Create this sub-folder
+      new File(subfolderPath2).mkdirs();
+
+/* ------------------------------------------------------------------------------- */
+
+// 4. Create a Report.csv file inside the CSV Reports folder 
+      // Create a File object for Report csv file (with timestamp)
+      def reportFile = new File(subfolderPath2, "Report_"+executionDate+".csv");
+
+      // Check for existence of report file and create a file
+      if(!reportFile.exists())
+      {
+        reportFile.createNewFile();
+        // Create required column names in the report file
+        reportFile.write('"Test Suite","Test Case","Test Step","Step Type","Step Status",'
+                        +'"Result message","Execution Date"');
+      }
+/* ------------------------------------------------------------------------------- */
+// 5. Inserting data in the file
+      // Iterate over all the test steps results
+  for(stepResult in testRunner.getResults())
+  {
+    // Retrieve Test Suite name
+   def testSuite = testRunner.testCase.testSuite.name;
+   // Retrieve Test Case name
+   def testCase = testRunner.testCase.name;
+   // Retrieve Test Step
+   def testStep = stepResult.getTestStep();
+   // Retrieve Test Step name
+   def testStepName = testStep.name
+   // Retrieve Test Step type
+   def type = testStep.config.type
+   // Retrieve Test Step status
+   def status = stepResult.getStatus()
+
+   // Creating new line in report file
+   reportFile.append('\n');
+
+   // Write all the necessary information in the file
+   reportFile.append('"' + testSuite + '",');
+   reportFile.append('"' + testCase + '",');
+   reportFile.append('"' + testStepName + '",');
+   reportFile.append('"' + type + '",');
+   reportFile.append('"' + status + '",');
+
+   // Retrieve the test result messages
+   reportFile.append('"');
+   for(resMessage in stepResult.getMessages())
+   {
+     // Write messages and separate multiple messages by new line
+     reportFile.append('Message:' + resMessage + '\n');
+   }
+   reportFile.append('",');
+
+   //Write executionDate in the file
+   reportFile.append('"' + executionDate + '",');
+/* ------------------------------------------------------------------------------- */
+// 6. Extract the request and response and save it to external file
+      // Verify if the test step type is request: SOAP project or restrequest: REST project
+        if((type=="request").or(type=="restrequest"))
+        {
+          // Extract the request from the test step
+          def extRequest = testStep.properties["Request"].value;    
+
+      // Create a file in the reports folder and write the request
+      // Naming convention: request_TestSuiteName_TestCaseName_TestStepName.txt
+      def requestFile=subfolderPath1+"/request_"+testSuite+"_"+testCase+"_"+testStepName+".txt";
+      def rqfile = new File(requestFile);
+      rqfile.write(extRequest, "UTF-8");
+
+      // Extract the response from the test step
+      def extResponse = stepResult.getResponseContent();    
+
+      // Create a file in the reports folder and write the response
+      // Naming convention: response_TestSuiteName_TestCaseName_TestStepName.txt
+      def responseFile=subfolderPath1+"/response_"+testSuite+"_"+testCase+"_"+testStepName+".txt";
+      def rsfile = new File(responseFile);
+      rsfile.write(extResponse, "UTF-8");
+     }
+   }
+ }
+catch(exc)
+{
+   log.error("Exception happened: " + exc.toString());
+}</script></con:config></con:testStep><con:tearDownScript>// Code to execute the GenerateCSVReport test step
+testRunner.testCase.testSuite.project.testSuites["Library"].testCases["Reporting_Utility"].
+testSteps["GenerateCSVReport"].run(testRunner, context);</con:tearDownScript><con:properties/></con:testCase><con:properties/><con:tearDownScript>// Code to execute the GenerateCSVReport test step
+testRunner.testCase.testSuite.project.testSuites["Library"].testCases["Reporting_Utility"].
+testSteps["GenerateCSVReport"].run(testRunner, context);</con:tearDownScript></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

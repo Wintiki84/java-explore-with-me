@@ -1,0 +1,1 @@
+{"productName":"Sirius","about":"Red ball turtles will not be left without attention!","middleStar":5.0,"client":{"id":2,"name":"Rijiy","personalDiscount1":6,"personalDiscount2":19},"userRating":5,"starsDistribution":{"5":1.0}}

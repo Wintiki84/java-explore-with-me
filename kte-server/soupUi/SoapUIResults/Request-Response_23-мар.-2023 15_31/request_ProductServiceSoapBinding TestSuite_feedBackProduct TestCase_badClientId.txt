@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:kte="http://kte.test-web-service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <kte:getFeedBackProductRequest>
+         <productId>3</productId>
+         <clientId>7</clientId>
+         <amountStar>5</amountStar>
+      </kte:getFeedBackProductRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

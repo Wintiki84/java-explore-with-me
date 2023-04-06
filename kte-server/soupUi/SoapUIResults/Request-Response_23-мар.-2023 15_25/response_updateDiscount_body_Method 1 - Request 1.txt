@@ -1,0 +1,1 @@
+{"id":1,"name":"Zosya","personalDiscount1":12,"personalDiscount2":8}

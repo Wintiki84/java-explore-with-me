@@ -22,10 +22,8 @@
 
 	<modules>
 		<!--<module>statistic</module>-->
-		<module>server</module>
-		<module>stats</module>
+		<module>kte-server</module>
 		<module>liquibase</module>
-        <module>kte-server</module>
     </modules>
 
 	<build>

@@ -1,0 +1,14 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:kte="http://kte.test-web-service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <kte:getGenerateCheckRequest>
+         <clientId>2</clientId>
+         <totalPrice>99900.0</totalPrice>
+         <!--Zero or more repetitions:-->
+         <TotalPriceShopingListRequest>
+            <amount>1</amount>
+            <productId>1</productId>
+         </TotalPriceShopingListRequest>
+      </kte:getGenerateCheckRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,29 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:getGenerateCheckResponse xmlns:ns2="http://kte.test-web-service">
+         <GenerateCheck>
+            <client>
+               <id>2</id>
+               <name>Rijiy</name>
+               <personalDiscount1>6</personalDiscount1>
+               <personalDiscount2>19</personalDiscount2>
+            </client>
+            <date>2023-03-23T15:31:12.733+04:00</date>
+            <finalPrice>999.0</finalPrice>
+            <number>00100</number>
+            <shoppingList>
+               <amountProduct>1</amountProduct>
+               <id>0</id>
+               <product>
+                  <about>Best cat's laser, is wnderfull playing toy from fluffy kitty!</about>
+                  <discount>0</discount>
+                  <id>1</id>
+                  <name>Bluster gun</name>
+                  <price>999.0</price>
+               </product>
+               <sumDiscount>6</sumDiscount>
+            </shoppingList>
+         </GenerateCheck>
+      </ns2:getGenerateCheckResponse>
+   </soap:Body>
+</soap:Envelope>

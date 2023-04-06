@@ -1,0 +1,6 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:kte="http://kte.test-web-service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <kte:getAllProductRequest/>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,1 @@
+{"productName":"Bluster gun","about":"Best cat's laser, is wnderfull playing toy from fluffy kitty!","middleStar":2.0,"client":{"id":1,"name":"Zosya","personalDiscount1":12,"personalDiscount2":8},"userRating":2,"starsDistribution":{"2":1.0}}

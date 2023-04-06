@@ -1,0 +1,24 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:getFeedBackProductResponse xmlns:ns2="http://kte.test-web-service">
+         <FeedBackProduct>
+            <about>This is mous not indistinguishable from the real.</about>
+            <client>
+               <id>2</id>
+               <name>Rijiy</name>
+               <personalDiscount1>6</personalDiscount1>
+               <personalDiscount2>19</personalDiscount2>
+            </client>
+            <middleStar>4.0</middleStar>
+            <productName>True mouse</productName>
+            <starsDistribution>
+               <entry>
+                  <key>4</key>
+                  <value>1.0</value>
+               </entry>
+            </starsDistribution>
+            <userRating>4</userRating>
+         </FeedBackProduct>
+      </ns2:getFeedBackProductResponse>
+   </soap:Body>
+</soap:Envelope>

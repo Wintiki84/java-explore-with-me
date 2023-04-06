@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:kte="http://kte.test-web-service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <kte:getUpdateDiscountRequest>
+         <clientId>1</clientId>
+         <discount1>0</discount1>
+         <discount2>8</discount2>
+      </kte:getUpdateDiscountRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

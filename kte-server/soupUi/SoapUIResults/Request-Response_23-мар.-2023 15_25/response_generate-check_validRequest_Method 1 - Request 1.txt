@@ -1,0 +1,1 @@
+{"number":"00100","date":"2023-03-23T11:25:32.070+00:00","shoppingList":[{"id":0,"product":{"id":3,"name":"Sirius","price":175.0,"discount":0,"about":"Red ball turtles will not be left without attention!"},"amountProduct":1,"sumDiscount":12}],"client":{"id":1,"name":"Zosya","personalDiscount1":12,"personalDiscount2":8},"finalPrice":175.0}

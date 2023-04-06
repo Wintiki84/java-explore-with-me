@@ -1,0 +1,24 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:getAdditionalProductInfoResponse xmlns:ns2="http://kte.test-web-service">
+         <AdditionalProductInfo>
+            <about>Best cat's laser, is wnderfull playing toy from fluffy kitty!</about>
+            <client>
+               <id>1</id>
+               <name>Zosya</name>
+               <personalDiscount1>0</personalDiscount1>
+               <personalDiscount2>8</personalDiscount2>
+            </client>
+            <middleStar>2.0</middleStar>
+            <productName>Bluster gun</productName>
+            <starsDistribution>
+               <entry>
+                  <key>2</key>
+                  <value>1.0</value>
+               </entry>
+            </starsDistribution>
+            <userRating>2</userRating>
+         </AdditionalProductInfo>
+      </ns2:getAdditionalProductInfoResponse>
+   </soap:Body>
+</soap:Envelope>

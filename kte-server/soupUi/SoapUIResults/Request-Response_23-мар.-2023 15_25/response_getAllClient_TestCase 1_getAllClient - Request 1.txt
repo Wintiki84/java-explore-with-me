@@ -1,0 +1,18 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:getAllClientResponse xmlns:ns2="http://kte.test-web-service">
+         <Client>
+            <id>2</id>
+            <name>Rijiy</name>
+            <personalDiscount1>6</personalDiscount1>
+            <personalDiscount2>19</personalDiscount2>
+         </Client>
+         <Client>
+            <id>1</id>
+            <name>Zosya</name>
+            <personalDiscount1>12</personalDiscount1>
+            <personalDiscount2>8</personalDiscount2>
+         </Client>
+      </ns2:getAllClientResponse>
+   </soap:Body>
+</soap:Envelope>

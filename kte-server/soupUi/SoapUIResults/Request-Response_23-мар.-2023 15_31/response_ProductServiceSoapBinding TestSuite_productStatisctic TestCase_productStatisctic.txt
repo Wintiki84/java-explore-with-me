@@ -1,0 +1,18 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:getProductStatiscticResponse xmlns:ns2="http://kte.test-web-service">
+         <ProductStatisctic>
+            <amountCheck>2</amountCheck>
+            <discountSum>12</discountSum>
+            <product>
+               <about>Any turtle will be happy on this road.</about>
+               <discount>0</discount>
+               <id>2</id>
+               <name>Road of obstacles</name>
+               <price>763.0</price>
+            </product>
+            <totalCostAtOriginalPrise>1526.0</totalCostAtOriginalPrise>
+         </ProductStatisctic>
+      </ns2:getProductStatiscticResponse>
+   </soap:Body>
+</soap:Envelope>

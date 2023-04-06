@@ -1,0 +1,1 @@
+[{"id":1,"name":"Zosya","personalDiscount1":0,"personalDiscount2":8},{"id":2,"name":"Rijiy","personalDiscount1":6,"personalDiscount2":19}]

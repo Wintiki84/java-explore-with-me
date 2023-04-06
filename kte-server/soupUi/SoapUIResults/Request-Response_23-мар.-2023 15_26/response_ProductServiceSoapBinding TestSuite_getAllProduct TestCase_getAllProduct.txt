@@ -1,0 +1,34 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:getAllProductResponse xmlns:ns2="http://kte.test-web-service">
+         <Product>
+            <about>Best cat's laser, is wnderfull playing toy from fluffy kitty!</about>
+            <discount>0</discount>
+            <id>1</id>
+            <name>Bluster gun</name>
+            <price>999.0</price>
+         </Product>
+         <Product>
+            <about>Any turtle will be happy on this road.</about>
+            <discount>0</discount>
+            <id>2</id>
+            <name>Road of obstacles</name>
+            <price>763.0</price>
+         </Product>
+         <Product>
+            <about>Red ball turtles will not be left without attention!</about>
+            <discount>0</discount>
+            <id>3</id>
+            <name>Sirius</name>
+            <price>175.0</price>
+         </Product>
+         <Product>
+            <about>This is mous not indistinguishable from the real.</about>
+            <discount>0</discount>
+            <id>4</id>
+            <name>True mouse</name>
+            <price>612.0</price>
+         </Product>
+      </ns2:getAllProductResponse>
+   </soap:Body>
+</soap:Envelope>

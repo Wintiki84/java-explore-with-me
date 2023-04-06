@@ -1,0 +1,10 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:getTotalPriceShopingListsResponse xmlns:ns2="http://kte.test-web-service">
+         <TotalPriceShopingLists>
+            <carrensy>KOP</carrensy>
+            <totalPrice>99900.0</totalPrice>
+         </TotalPriceShopingLists>
+      </ns2:getTotalPriceShopingListsResponse>
+   </soap:Body>
+</soap:Envelope>

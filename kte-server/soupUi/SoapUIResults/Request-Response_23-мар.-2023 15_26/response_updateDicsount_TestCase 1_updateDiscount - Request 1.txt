@@ -1,0 +1,12 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:getUpdateDiscountResponse xmlns:ns2="http://kte.test-web-service">
+         <UpdateDiscount>
+            <id>1</id>
+            <name>Zosya</name>
+            <personalDiscount1>0</personalDiscount1>
+            <personalDiscount2>8</personalDiscount2>
+         </UpdateDiscount>
+      </ns2:getUpdateDiscountResponse>
+   </soap:Body>
+</soap:Envelope>

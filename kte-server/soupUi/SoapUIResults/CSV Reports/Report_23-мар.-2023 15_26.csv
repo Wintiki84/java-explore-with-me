@@ -1,0 +1,13 @@
+"Test Suite","Test Case","Test Step","Step Type","Step Status","Result message","Execution Date"
+"updateDicsount","TestCase 1","updateDiscount - Request 1","request","OK","","23-мар.-2023 15_26",
+"ProductServiceSoapBinding TestSuite","feedBackProduct TestCase","feedBackProduct","request","OK","","23-мар.-2023 15_26",
+"ProductServiceSoapBinding TestSuite","feedBackProduct TestCase","badClientId","request","OK","","23-мар.-2023 15_26",
+"ProductServiceSoapBinding TestSuite","generateCheck TestCase","generateCheck","request","OK","","23-мар.-2023 15_26",
+"ProductServiceSoapBinding TestSuite","generateCheck TestCase","notValidTotalPrice","request","OK","","23-мар.-2023 15_26",
+"ProductServiceSoapBinding TestSuite","getAdditionalProductInfo TestCase","getAdditionalProductInfo","request","OK","","23-мар.-2023 15_26",
+"ProductServiceSoapBinding TestSuite","getAdditionalProductInfo TestCase","ratingWithProductIdAndClientIdNotFound","request","OK","","23-мар.-2023 15_26",
+"ProductServiceSoapBinding TestSuite","getAllProduct TestCase","getAllProduct","request","OK","","23-мар.-2023 15_26",
+"ProductServiceSoapBinding TestSuite","productStatisctic TestCase","productStatisctic","request","OK","","23-мар.-2023 15_26",
+"ProductServiceSoapBinding TestSuite","productStatisctic TestCase","badProductStatistic","request","OK","","23-мар.-2023 15_26",
+"ProductServiceSoapBinding TestSuite","totalPriceShopingLists TestCase","totalPriceShopingLists","request","OK","","23-мар.-2023 15_26",
+"ProductServiceSoapBinding TestSuite","totalPriceShopingLists TestCase","badTotalPriceShopingList","request","OK","","23-мар.-2023 15_26",
